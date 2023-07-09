@@ -1,0 +1,740 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+header {
+    background-color: #3a7bb6;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+#btnCerrarSesion {
+    margin: 0 !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+}
+
+.logo{
+    height:100px;
+    width:100px;
+}
+.logo img {
+    height: 100px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+}
+
+.input-search {
+    height: 50px;
+    width: 150px;
+    border-style: none;
+    padding: 10px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    outline: none;
+    border-radius: 25px;
+    transition: all .5s ease-in-out;
+    background-color: #22a6b3;
+    padding-right: 40px;
+    color: #fff;
+}
+
+    .input-search::placeholder {
+        color: rgba(255, 255, 255, .5);
+        font-size: 18px;
+        letter-spacing: 2px;
+        font-weight: 100;
+    }
+
+.btn-search {
+    width: 50px;
+    height: 50px;
+    border-style: none;
+    font-size: 20px;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    right: 0px;
+    color: #ffffff;
+    background-color: transparent;
+    pointer-events: painted;
+}
+
+    .btn-search:focus ~ .input-search {
+        width: 220px;
+        border-radius: 0px;
+        background-color: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, .5);
+        transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+    }
+
+.input-search:focus {
+    width: 220px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, .5);
+    transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+
+
+.category-bar {
+    display:flex;
+    margin-top: auto;
+    align-items: center; 
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.lista ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.lista ul li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 30px;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.lista ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px black;
+}
+
+#home {
+    height: auto;
+    min-height:135vh;
+    padding-bottom:25px;
+    background-image: url(Imagenes/fondo1.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main-banner {
+    margin: auto;
+    height: 70vh;
+    margin-bottom: 45px;
+    background-clip: padding-box;
+    background-size: cover;
+    background-position: center;
+    position:relative;
+    color:white;
+}
+
+    .main-banner h1 {
+        position: absolute;
+        top: 160px;
+        right: 20px;
+        font-size: 44px;
+        font-family: 'Graduate', cursive;
+    }
+
+    .main-banner h2 {
+        position: absolute;
+        top: 220px;
+        right: 237px;
+        font-size: 34px;
+        font-family: 'Graduate', cursive;
+    }
+
+    .main-banner a {
+        position: absolute;
+        top: 290px;
+        right: 380px;
+        padding: 6px 32px;
+        text-decoration: none;
+        font-size: 18px;
+        background-color: white;
+        color: black;
+        border-radius: 6px;
+        letter-spacing: 0.5mm;
+        font-family: 'Graduate', cursive;
+    }
+
+    .main-banner a:hover {
+        box-shadow: 0 0 15px 5px lightblue;
+    }
+
+.main-carrusel {
+    margin: auto;
+    height: auto;
+    width: 85vw;
+    padding: 40px 50px;
+    border: 1px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+    color: white;
+    font-family: 'Graduate', cursive;
+}
+
+.titulo-carrusel {
+    text-align: center;
+    margin-bottom: 25px;
+    font-family: 'Graduate', cursive;
+    color: white;
+}
+
+.item{
+    color:white;
+    justify-content:center;
+    align-items:center;
+    height:18rem;
+    display:flex;
+}
+
+.owl-container{
+    width: 80vw;
+    margin:0 auto;
+}
+
+.card-img {
+    height: 35vh;
+    width: 100%;
+    object-fit: contain;
+}
+    /***** Artículos *****/
+
+#mainArt {
+    height: auto;
+    min-height:120vh;
+    background-image: url(Imagenes/login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main-articulos {
+    padding-bottom: 20px;
+}
+
+
+.filtro {
+    /* display: flex;
+    width: 200px;
+    height: 450px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-left: 20px;
+    margin-top: 300px;
+    padding-top: 2px;
+    float: left;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+    color: white;
+    font-family: 'Graduate', cursive;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: center;
+}
+
+    .filtro ul {
+        list-style-type: none;
+    }
+
+.Nombre {
+    list-style-type: square;
+}
+
+.btnFiltro {
+    margin-left: 10px;
+    margin-bottom:10px;
+    width:150px;
+}
+
+.divDeportes {
+    width: 40vw;
+    height: 120px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+
+.filtroDeportes {
+    height: 95px;
+    width: 100px;
+    border: 1px solid white;
+    border-radius: 100%;
+    display:flex;
+    align-content:center;
+    justify-items:center;
+}
+
+#btnBasquet, #btnAccesorios{
+    padding:5px;
+    height:85px;
+    width:90px;
+}
+
+.imgDeportes {
+    width:100px;
+    height:95px;
+}
+
+.divOrdenar {
+    float:left;
+    margin-top: 0.5%;
+    margin-left: 1%;
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+    display: flow-root;
+    width: 200px;
+    height: auto;
+    padding-bottom:15px;
+}
+
+#ddlOrdenarPor {
+    text-align: center;
+    width: 200px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 5px;
+    backdrop-filter: blur(5px);
+    color: white;
+    font-family: 'Graduate', cursive;
+    font-weight:bold;
+    background: blue;
+}
+
+.articulos {
+    height: auto;
+    margin: auto;
+    width: 66vw;
+}
+
+.tdit {
+    padding: 10px;
+    width: 22vw;
+    height: auto;
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    font-family: 'Graduate', cursive;
+    font-weight: 600;
+}
+
+/****** LOGIN Y REGISTER ******/
+
+.main-login {
+    height: auto;
+    min-height:100vh;
+    padding-bottom:25px;
+    background-image: url(Imagenes/login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.capa{
+    height: 60px;
+}
+
+.login {
+    margin: auto;
+    height: auto;
+    width: auto;
+    max-width:45vw;
+    padding: 20px 50px;
+    border: 1px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+    color: white;
+    font-family: 'Graduate', cursive;
+}
+
+.login h1 {
+    text-align: center;
+}
+
+
+.txtInputs{
+    width: 100%;
+    height: 20px;  
+}
+
+#txtDireccion, #txtEmail{
+    width:100%;
+}
+
+#ddlProvincias{
+    width:100%;
+    height:25px;
+    border-radius:0px;
+}
+
+.register-box {
+    display: flex;
+    justify-content:space-between;
+}
+
+.auxRegister{
+    width: 45%;
+}
+
+#btnIniciarSesion {
+    width: 175px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: white;
+    font-family: 'Graduate', cursive;
+    text-align: center;
+}
+
+#btnIniciarSesion:hover {
+    color: #FFFFFF;
+    background-color: black;
+    transform: scale(1.1);
+    transition: 500ms;
+}
+
+.login a{
+    text-decoration: none;
+    color: white;
+}
+
+.login a:hover {
+    transform: scale(1.05);
+}
+
+.botones-formulario{
+    text-align:center;
+    margin: 25px 0px;
+}
+
+.RFV-Size{
+    font-size:xx-large;
+}
+
+/*--------------------Favoritos y Mis Compras------------------*/
+
+.main-favoritos {
+    background-image: url(Imagenes/login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height:120vh;
+}
+
+.favoritos-header {
+    text-align: center;
+    position: center;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px goldenrod;
+    font-size: 50px;
+    margin-top: 0px;
+    margin-bottom:55px;
+    padding-top: 25px;
+    color: white;
+}
+
+.divFavoritos{
+    margin:auto;
+    text-align:center;
+    color:white;
+    width:auto;
+    max-width:80vw;
+}
+
+.lblFavoritos {
+    padding: 10px;
+    border: 1px solid white;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    backdrop-filter: blur(5px);
+}
+
+.eliminarBtn {
+    padding:15px;
+    background-color:transparent;
+    border:none;
+    margin:auto;
+}
+
+.eliminarBtn i {
+    color: white;
+}
+
+.eliminarBtn i:hover{
+    color:red;
+}
+
+.txtFav {
+    font-size: large;
+    font-family: 'Graduate', cursive;
+    margin: auto;
+}
+
+/*Gridview*/
+.container-listview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    position: center;
+    margin-top: 5%;
+}
+
+/*------Comprar-----*/
+
+.main-comprar {
+    height: 1000px;
+    background-image: url(Imagenes/login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    padding-top: 100px;
+}
+
+
+    .main-comprar .divListView {
+        background-color: #42a1ff;
+        border: 3px solid #ac2fd2;
+        width:700px;
+        padding: 30px 20px 0 20px;
+        margin-left: 25%;
+    }
+
+    .main-comprar select{
+        align-items:center;
+        margin:auto;
+    }
+
+.DeportesContainer {
+    display: flex;
+    /* ... rest of your code ... */
+    }
+.ddlcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: center;
+}
+
+.main-misCompras {
+    height:100vh;
+    background-image: url(Imagenes/login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main-misCompras h2{
+    margin-top: 0px;
+    padding-top:25px;
+}
+
+/* PANEL ADMIN*/
+
+.panelAdmin {
+    height: 120vh;
+    background-image: url(Imagenes/login.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.form-panel-admin {
+    margin: auto;
+    height: auto;
+    width: auto;
+    max-width: 90vw;
+    padding: 20px;
+    border: 1px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+}
+
+.AgregarArticulo {
+    margin: auto;
+    height: auto;
+    width:70vw;
+    padding: 20px;
+    border: 1px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+    color: white;
+    font-family: 'Graduate', cursive;
+}
+
+.inputsAdmin {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 5px;
+}
+
+#btnAgregarArt {
+    width: 175px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: white;
+    font-family: 'Graduate', cursive;
+    text-align: center;
+}
+
+#grdEliminar, #grdUsuarios{
+    margin:auto;
+}
+
+.eliminarCategoria{
+    display:flex;
+}
+
+.container-eliminar, .container-agregar{
+    display:flex;
+    justify-content:space-evenly;
+}
+
+.agregar-categoria, .agregar-tdp {
+    width:40%;
+    padding: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box; 
+    border: 1px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 25px rgb(255, 255, 255);
+    text-align: center;
+}
+
+/*FORMULARIO AGREGAR ARTÍCULOS NUEVOS*/
+
+.AgregarArticulo{
+    display:flex;
+}
+.formulario1 {
+    flex:1;
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box; 
+    text-align: center;
+}
+
+.formulario2 {
+    flex:1;
+    width: 50%; 
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.gridview-custom caption {
+    font-weight: bolder;
+    color: antiquewhite;
+    font-size: xx-large;
+}
+
+/* FOOTER */
+
+footer {
+    background-color: #c7c7c7;
+    color: black;
+    min-height: 250px;
+    height: auto;
+}
+
+.social-media {
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+}
+
+    .social-media i {
+        margin: 10px 25px;
+    }
+
+.info-footer {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+}
+
+.seccion-footer {
+    padding: 20px 0;
+}
+
+    .seccion-footer h2 {
+        font-size: 20px;
+    }
+
+    .seccion-footer i {
+        margin-right: 6px;
+    }
+
+.derechos p {
+    text-align: center;
+    border-top: 1px solid black;
+    margin-bottom: 10px;
+    padding-top: 10px;
+}
+
+/*** MEDIA QUERIES ***/
+
+@media (max-width: 1200px) {
+    /* HOME */
+    .main-banner h1 {
+        font-size: 32px;
+    }
+    .main-banner h2 {
+        font-size: 26px;
+        top: 205px;
+        right: 157px;
+    }
+    .main-banner a {
+        top: 250px;
+        right: 260px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1024px) {
+    /* HOME */
+    .main-banner h1 {
+        font-size: 28px;
+    }
+    .main-banner h2 {
+        font-size: 22px;
+        top: 205px;
+        right: 150px;
+    }
+    .main-banner a {
+        top: 250px;
+        right: 230px;
+        font-size: 14px;
+    }
+}
+
+.custom-radiobtnlist {
+    color: white;
+}
