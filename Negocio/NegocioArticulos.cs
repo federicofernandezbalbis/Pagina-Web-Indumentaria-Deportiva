@@ -163,13 +163,13 @@ namespace Negocio
         
         public string precioMasBajo()
         {
-            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] ORDER BY Precio_AR ASC";
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [Estado_AR] = 1 ORDER BY Precio_AR ASC";
                 return consulta;
         }
 
         public string restablecer()
         {
-            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] AND[Estado_AR] = 1";
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [Estado_AR] = 1";
             return consulta;
         }
         
