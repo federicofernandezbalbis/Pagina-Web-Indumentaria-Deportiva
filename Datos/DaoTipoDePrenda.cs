@@ -15,13 +15,13 @@ namespace Datos
 
         public DataTable getTablaTipoPrenda()
         {
-            DataTable tabla = ds.ObtenerTabla("TIPODEPRENDA", "SELECT * FROM TIPODEPRENDA");
+            DataTable tabla = ds.ObtenerTabla("TIPODEPRENDA", "SELECT * FROM TIPODEPRENDA WHERE [Estado_TDP] = 1");
             return tabla;
         }
 
         public TipoDePrenda getTipoPrenda(TipoDePrenda tdp)
         {
-            DataTable tabla = ds.ObtenerTabla("TIPODEPRENDA", "SELECT * FROM TIPODEPRENDA WHERE IDTipo_TDP = " + tdp.IdTipoPrenda);
+            DataTable tabla = ds.ObtenerTabla("TIPODEPRENDA", "SELECT * FROM TIPODEPRENDA WHERE IDTipo_TDP = " + tdp.IdTipoPrenda + " AND [Estado_TDP] = 1");
             tdp.IdTipoPrenda = Convert.ToInt32(tabla.Rows[0][0].ToString());
             tdp.Descripcion= tabla.Rows[0][1].ToString();
             return tdp;

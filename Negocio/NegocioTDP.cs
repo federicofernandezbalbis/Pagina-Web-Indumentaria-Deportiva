@@ -7,6 +7,7 @@ using Entidades;
 using Datos;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace Negocio
 {
@@ -19,6 +20,12 @@ namespace Negocio
         public NegocioTDP()
         {
 
+        }
+
+        public void cargarGridTDP(GridView grdEliminarTdp, NegocioTDP tipodeprendas)
+        {
+            grdEliminarTdp.DataSource = tipodeprendas.ObtenerTDP();
+            grdEliminarTdp.DataBind();
         }
 
         public DataTable ObtenerTDP()

@@ -61,41 +61,46 @@
                 </div>
          </nav>
         </header>
-        <main>
-            <div class="main-comprar">
-                <div class="divListView" style="text-align: center">
-                    <asp:GridView ID="grdCarrito" runat="server" AutoGenerateColumns="False" OnRowDataBound="grdCarrito_RowDataBound">
-                        <Columns>
-                            <asp:BoundField DataField="ID ARTICULO" HeaderText="ID ARTICULO" />
-                            <asp:BoundField DataField="NOMBRE" HeaderText="NOMBRE" />
-                            <asp:BoundField DataField="DESCRIPCION" HeaderText="DESCRIPCION" />
-                            <asp:BoundField DataField="TIPO DE PRENDA" HeaderText="TIPO DE PRENDA" />
-                            <asp:TemplateField HeaderText="TALLE">
-                                <ItemTemplate>
-
-                                    <asp:DropDownList ID="ddlTalle" runat="server"></asp:DropDownList>
-                                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TIRO_LIBREConnectionString %>" SelectCommand="SELECT DISTINCT [Talle_AR] FROM [ARTICULOS] WHERE ([IDArt_AR] = @IDArt_AR)">
-                                        <SelectParameters>
-                                            <asp:FormParameter FormField="ID ARTICULO" Name="IDArt_AR" Type="String" />
-                                        </SelectParameters>
-                                    </asp:SqlDataSource>
-
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="CANTIDAD">
-                                <ItemTemplate>
-                                    <asp:DropDownList ID="ddlCantidad" runat="server"></asp:DropDownList>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:BoundField DataField="PRECIO" HeaderText="PRECIO" />
-                            
-                        </Columns>
-                    </asp:GridView>
-                    <br />
-                    <br />
-                    <asp:Button ID="btnComprar" runat="server" OnClick="btnComprar_Click" Text="Comprar"/>
-                    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        <main class="main-favoritos">
+            <div class="headerFavoritos">
+                <h1 class="favoritos-header">CARRITO DE COMPRAS</h1>
+            </div>
+            <div class="divFavoritos">
+                <asp:ListView ID="lvCarrito" runat="server" OnItemDataBound="lvCarrito_ItemDataBound">
+                    <ItemTemplate>
+                        <div class="lblFavoritos">
+                            <div class="imgFav">
+                                <asp:ImageButton ID="ImagenArt" runat="server" Height="125px" Width="125px"/> 
+                            </div>
+                            <div class="txtFav">
+                                <asp:Label ID="IDArt" runat="server" Text='' /> 
+                            </div>
+                            <div class="txtFav">
+                                <asp:Label ID="NombreArt" runat="server" Text='' />  
+                            </div>
+                            <div class="txtFav">
+                                <asp:Label ID="DescArt" runat="server" Text='' />   
+                            </div>
+                            <div class="txtFav">
+                               <asp:DropDownList ID="TalleArt" runat="server" OnSelectedIndexChanged="TalleArt_SelectedIndexChanged"></asp:DropDownList>
+                            </div>
+                            <div class="txtFav">
+                               <asp:DropDownList ID="CantArt" runat="server" OnSelectedIndexChanged="CantArt_SelectedIndexChanged"></asp:DropDownList>
+                            </div>
+                            <div class="txtFav">
+                                $<asp:Label ID="PrecioArt" runat="server" Text='' />
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:ListView>
+            </div>      
+            <br />
+            <div class="botonesCarrito">
+                <div class="botonesComprar">
+                    <asp:Button ID="btnComprar" CssClass="btnCarrito" runat="server" OnClick="btnComprar_Click" Text="Comprar"/>
+                    <asp:Button ID="btnBorrarCarrito" CssClass="btnCarrito" runat="server" Text="Borrar" OnClick="btnBorrarCarrito_Click"/>
                 </div>
+                <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
             </div>
         </main>
         <footer>

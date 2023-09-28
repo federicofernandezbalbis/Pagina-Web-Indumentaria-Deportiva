@@ -13,57 +13,30 @@ namespace Proyecto2
 {
     public partial class WebForm2 : System.Web.UI.Page
     {
-
+        NegocioArticulos negArt = new NegocioArticulos();
         NegocioUsuarios usuarios = new NegocioUsuarios();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if (Session["idUsuario"] != null)
+            if (IsPostBack == false)
             {
-                string idUsuario = Session["idUsuario"].ToString();
-                if (Request.Cookies["Favoritos" + idUsuario] != null)
+                if (Session["idUsuario"] != null)
                 {
-                    HttpCookie ck = Request.Cookies["Favoritos" + idUsuario];
-                    string[] valores = ck.Value.Split('|');
-                    DataTable dt = new DataTable();
-                    dt = crearTablaFavoritos();
-                    filaFav(dt, valores);
-                    lvFavoritos.DataSource = dt;
-                    lvFavoritos.DataBind();
+                    string idUsuario = Session["idUsuario"].ToString();
+                    if (Request.Cookies["Favoritos" + idUsuario] != null)
+                    {
+                        HttpCookie ck = Request.Cookies["Favoritos" + idUsuario];
+                        string[] valores = ck.Value.Split('|');
+                        DataTable dt = new DataTable();
+                        dt = negArt.crearTablaFavoritos();
+                        negArt.agregarFilaFav(dt, valores);
+                        lvFavoritos.DataSource = dt;
+                        lvFavoritos.DataBind();
+                    }
                 }
             }
         }
-
-        public DataTable crearTablaFavoritos()
-        {
-            DataTable dt = new DataTable();
-            DataColumn columna = new DataColumn();
-            columna = new DataColumn("ID ARTICULO", System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("NOMBRE", System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("DESCRIPCION".ToUpper(), System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("PRECIO".ToUpper(), System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("IMAGEN", System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            return dt;
-        }
-
-        public void filaFav(DataTable TablaFavoritos, string[] valores)
-        {
-            for (int i = 0; i < valores.Length - 3; i += 5)
-            {
-                DataRow dr = TablaFavoritos.NewRow();
-                dr["ID ARTICULO".ToUpper()] = valores[i];
-                dr["NOMBRE".ToUpper()] = valores[i + 1];
-                dr["DESCRIPCION".ToUpper()] = valores[i + 2];
-                dr["PRECIO".ToUpper()] = valores[i + 3].ToString();
-                dr["IMAGEN"] = valores[i+4];
-                TablaFavoritos.Rows.Add(dr);
-            }
-        }
+        
         protected void lvFavoritos_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
             if (e.Item.ItemType == ListViewItemType.DataItem)
@@ -87,7 +60,7 @@ namespace Proyecto2
                 imgArt.ImageUrl = img;
             }
         }
-        
+
         public void BtnBuscar_Click(object sender, EventArgs e)
         {
             if (txtSearch.Text.Trim() != "")
@@ -122,10 +95,19 @@ namespace Proyecto2
             Response.Redirect("Home.aspx");
         }
 
-        protected void BtnEliminarFav_Click(object sender, EventArgs e)
+        protected void btnBorrarFavoritos_Click(object sender, EventArgs e)
         {
-           
+            if (Session["idUsuario"] != null)
+            {
+                string idUsuario = Session["idUsuario"].ToString();
+                HttpCookie ck = Request.Cookies["Favoritos" + idUsuario];
+                if (ck.Value != null)
+                {
+                    ck.Value = string.Empty;
+                    Response.Cookies.Add(ck);
+                    Response.Redirect(Request.RawUrl);
+                }
+            }
         }
-
     }
 }

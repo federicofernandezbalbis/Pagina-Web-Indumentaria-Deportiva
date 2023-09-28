@@ -15,7 +15,7 @@ namespace Datos
 
         public Usuarios getUsuario(Usuarios usu)
         {
-            DataTable tabla = ds.ObtenerTabla("USUARIOS", "SELECT * FROM USUARIOS WHERE Mail_US = '" + usu.Mail + "'");
+            DataTable tabla = ds.ObtenerTabla("USUARIOS", "SELECT * FROM USUARIOS WHERE Mail_US = '" + usu.Mail + "' AND [Estado_US] = 1");
             usu.IdUsuario = Convert.ToInt32(tabla.Rows[0][0].ToString());
             usu.Nombre = tabla.Rows[0][1].ToString();
             usu.Apellido = tabla.Rows[0][2].ToString();
@@ -34,7 +34,7 @@ namespace Datos
 
         public Usuarios getUsuarioConID(Usuarios usu)
         {
-            DataTable tabla = ds.ObtenerTabla("USUARIOS", "SELECT * FROM USUARIOS WHERE IDUsuario_US = " + usu.IdUsuario);
+            DataTable tabla = ds.ObtenerTabla("USUARIOS", "SELECT * FROM USUARIOS WHERE IDUsuario_US = " + usu.IdUsuario + " AND [Estado_US] = 1");
             usu.IdUsuario = Convert.ToInt32(tabla.Rows[0][0].ToString());
             usu.Nombre = tabla.Rows[0][1].ToString();
             usu.Apellido = tabla.Rows[0][2].ToString();

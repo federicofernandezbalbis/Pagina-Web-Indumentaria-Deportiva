@@ -12,7 +12,7 @@ namespace Entidades
         private Usuarios usuario;
         private Usuarios dni;
         private Usuarios telefono;
-        private decimal total;
+        private int total;
         private DateTime fecha;
 
         public Ventas() {}
@@ -21,7 +21,7 @@ namespace Entidades
         public Usuarios Usuario { get => usuario; set => usuario = value; }
         public Usuarios Dni { get => dni; set => dni = value; }
         public Usuarios Telefono { get => telefono; set => telefono = value; }
-        public decimal Total { get => total; set => total = value; }
+        public int Total { get => total; set => total = value; }
         public DateTime Fecha { get => fecha; set => fecha = value; }
     }
 }

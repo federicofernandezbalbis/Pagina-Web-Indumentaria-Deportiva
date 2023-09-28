@@ -97,7 +97,7 @@ namespace Datos
             sqlParametros.Value = dv.Talle.Talle;
             sqlParametros = cmd.Parameters.Add("@CANTIDAD", SqlDbType.Int);
             sqlParametros.Value = dv.Cantidad;
-            sqlParametros = cmd.Parameters.Add("@PRECIOUNITARIO", SqlDbType.Money);
+            sqlParametros = cmd.Parameters.Add("@PRECIOUNITARIO", SqlDbType.Int);
             sqlParametros.Value = dv.PrecioUnitario.Precio;
         }
     }

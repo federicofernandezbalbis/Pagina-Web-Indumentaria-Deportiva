@@ -41,6 +41,7 @@ namespace Proyecto2
                 limpiarTextBox();
             }
         }
+        
         public void limpiarTextBox()
         {
             txtNombre.Text = "";

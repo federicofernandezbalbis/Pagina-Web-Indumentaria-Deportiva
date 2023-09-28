@@ -27,14 +27,17 @@ namespace Proyecto2
             }
             return -1;
         }
+        
         protected void Page_Load(object sender, EventArgs e)
         {
+            ListView2.Visible = false;
             if (IsPostBack == false)
             {
                 int id = returnIdUsuario();
                 SqlDataSource1.SelectParameters["Param1"].DefaultValue = id.ToString();
             }
         }
+        
         public void BtnBuscar_Click(object sender, EventArgs e)
         {
             if (txtSearch.Text.Trim() != "")
@@ -42,6 +45,7 @@ namespace Proyecto2
                 Server.Transfer("Artículos.aspx");
             }
         }
+        
         public Boolean esAdministrador()
         {
             int idUser;
@@ -60,34 +64,35 @@ namespace Proyecto2
             return false;
 
         }
-
+        
         protected void btnCerrarSesion_Click(object sender, EventArgs e)
         {
             Session.Remove("Username");
             Session.Remove("idUsuario");
             Response.Redirect("Home.aspx");
         }
+        
         protected void VerDetalle_Command(object sender, CommandEventArgs e)
         {
+            ListView2.Visible = true;
             if (e.CommandName == "VerDetalle")
             {
+                ListView1.Visible = false;
                 string[] valores = e.CommandArgument.ToString().Split('-');
                 if (valores.Length == 2)
                 {
-                    string IdUser = valores[0];
-                    string IdDv = valores[1];
+                    string IdUser = valores[1];
+                    string IdDv = valores[0];
                     SqlDataSource2.SelectParameters["Param1"].DefaultValue = IdUser;
                     SqlDataSource2.SelectParameters["Param2"].DefaultValue = IdDv;
-                    ListView1.DataSourceID = "SqlDataSource2";
-                    ListView1.DataBind();
+                    SqlDataSource2.DataBind();
                 }
                 else
                 {
+
                 }
             }
         }
-
-
 
     }
 }

@@ -410,6 +410,8 @@
                         <SortedDescendingCellStyle BackColor="#E5E5E5" />
                         <SortedDescendingHeaderStyle BackColor="#275353" />
                     </asp:GridView>
+                    <br />
+                    <asp:Label ID="lblEliminar" runat="server" ForeColor="White"></asp:Label>
                 </div>
                 <div class="containerGrafico" style="align-content: center">
                     <asp:Chart ID="Chart1" Style="margin-left: 20%" runat="server" DataSourceID="SqlDataSource3" BackColor="0, 0, 192" BackGradientStyle="DiagonalLeft" BorderlineColor="Red" BorderlineWidth="0" Palette="Chocolate" Visible="False" Width="600px" BackImageTransparentColor="Black" Height="500px">

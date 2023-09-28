@@ -15,7 +15,7 @@ namespace Datos
 
         public Articulos getArticulo(Articulos art)
         {
-            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT * FROM ARTICULOS WHERE IDArt_AR = " + art.IdArticulo);
+            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT * FROM ARTICULOS WHERE IDArt_AR = " + art.IdArticulo + " AND [Estado_AR] = 1");
             art.IdArticulo = tabla.Rows[0][1].ToString();
             art.Nombre = tabla.Rows[0][7].ToString();
             art.Descripcion = tabla.Rows[0][8].ToString();
@@ -25,37 +25,37 @@ namespace Datos
         }
         public string getID(Articulos Art)
         {
-            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT * FROM ARTICULOS WHERE IDArt_AR = " + Art.IdArticulo);
+            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT * FROM ARTICULOS WHERE IDArt_AR = " + Art.IdArticulo + " AND [Estado_AR] = 1");
             Art.IdArticulo = tabla.Rows[0][1].ToString();
             return Art.IdArticulo;
         }
 
         public DataTable getSexo()
         {
-            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT IDSexo_AR FROM ARTICULOS");
+            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT IDSexo_AR FROM ARTICULOS WHERE [Estado_AR] = 1");
             return tabla;
         }
         public DataTable getCategoria()
         {
-            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT IDCategoria_AR FROM ARTICULOS");
+            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT IDCategoria_AR FROM ARTICULOS WHERE [Estado_AR] = 1");
             return tabla;
         }
         public DataTable getTipoPrenda()
         {
-            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT IDTipo_AR FROM ARTICULOS");
+            DataTable tabla = ds.ObtenerTabla("ARTICULOS", "SELECT IDTipo_AR FROM ARTICULOS WHERE [Estado_AR] = 1");
             return tabla;
         }
 
         public DataTable getTablaArticulos()
         {
-            string consulta = "SELECT IDArt_AR AS ID, Nombre_AR AS NOMBRE, Descripcion_AR AS DESCRIPCION, Precio_AR AS PRECIO, Talle_AR AS TALLE, IDSexo_AR AS SEXO, URL_Imagen_Producto FROM ARTICULOS";
+            string consulta = "SELECT IDArt_AR AS ID, Nombre_AR AS NOMBRE, Descripcion_AR AS DESCRIPCION, Precio_AR AS PRECIO, Talle_AR AS TALLE, IDSexo_AR AS SEXO, URL_Imagen_Producto FROM ARTICULOS WHERE [Estado_AR] = 1";
             DataTable tabla = ds.ObtenerTabla("ARTICULOS", consulta);
             return tabla;
         }
 
         public DataTable getTablaArticulosEditar()
         {
-            string consulta = "SELECT IDArt_AR AS ID, Nombre_AR AS NOMBRE, Descripcion_AR AS DESCRIPCION, Precio_AR AS PRECIO, Talle_AR AS TALLE, IDSexo_AR AS SEXO, URL_Imagen_Producto, Stock_AR AS STOCK, IDCategoria_AR AS Categoria, IDTipo_AR AS TIPOPRENDA, IDProveedor_AR AS Proveedor, Estado_AR as Estado FROM ARTICULOS";
+            string consulta = "SELECT IDArt_AR AS ID, Nombre_AR AS NOMBRE, Descripcion_AR AS DESCRIPCION, Precio_AR AS PRECIO, Talle_AR AS TALLE, IDSexo_AR AS SEXO, URL_Imagen_Producto, Stock_AR AS STOCK, IDCategoria_AR AS Categoria, IDTipo_AR AS TIPOPRENDA, IDProveedor_AR AS Proveedor, Estado_AR as Estado FROM ARTICULOS WHERE [Estado_AR] = 1";
             DataTable tabla = ds.ObtenerTabla("ARTICULOS", consulta);
             return tabla;
         }
@@ -89,13 +89,13 @@ namespace Datos
 
         public Boolean existeArticulo(Articulos art)
         {
-            String consulta = "select * from ARTICULOS where IDArt_AR='" + art.IdArticulo +"' and Talle_AR = '" + art.Talle + "'";
+            String consulta = "select * from ARTICULOS where IDArt_AR='" + art.IdArticulo +"' and Talle_AR = '" + art.Talle + "' AND [Estado_AR] = 1";
             return ds.existe(consulta);
         }
 
         public Boolean existePrimerArticulo(Articulos art)
         {
-            String consulta = "select * from ARTICULOS where IDArt_AR='" + art.IdArticulo + "'";
+            String consulta = "select * from ARTICULOS where IDArt_AR='" + art.IdArticulo + "' AND [Estado_AR] = 1";
             return ds.existe(consulta);
         }
 
@@ -161,7 +161,7 @@ namespace Datos
             sqlParametros.Value = art.Nombre;
             sqlParametros = cmd.Parameters.Add("@DESCRIPCION", SqlDbType.VarChar);
             sqlParametros.Value = art.Descripcion;
-            sqlParametros = cmd.Parameters.Add("@PRECIO", SqlDbType.Money);
+            sqlParametros = cmd.Parameters.Add("@PRECIO", SqlDbType.Int);
             sqlParametros.Value = art.Precio;
             sqlParametros = cmd.Parameters.Add("@STOCK", SqlDbType.Int);
             sqlParametros.Value = art.Stock;

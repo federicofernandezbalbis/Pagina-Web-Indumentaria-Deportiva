@@ -38,10 +38,9 @@ namespace Proyecto2
             {
                 SqlDataSource1.SelectCommand = ViewState["SqlDataSource1SelectCommand"].ToString();
             }
-            txtSearch.Text = "";
         }
 
-        public void BtnBuscar_Click(object sender, EventArgs e)
+        protected void BtnBuscar_Click(object sender, EventArgs e)
         {
             string inputValue = txtSearch.Text;
             if (inputValue.Trim() != "")
@@ -51,13 +50,7 @@ namespace Proyecto2
                 inputValue = "";
             }
         }
-
-    /*    public SqlDataSource buscarPorNombre(SqlDataSource sc, string consulta)
-        {
-            sc.SelectCommand = consulta;
-            return sc;
-        }*/
-
+        
         protected void btnAgregarCarrito_Command(object sender, CommandEventArgs e)
         {
             if (Session["idUsuario"] != null)
@@ -71,15 +64,13 @@ namespace Proyecto2
                     if (e.CommandName == "eventoAgregarCarrito")
                     {
                         string[] valores = e.CommandArgument.ToString().Split('-');
-                        string id, tdp;
-                        string des = null, nom = null;
-                        string precio;
-                        id = valores[0];
-                        nom = valores[1];
-                        des = valores[2];
-                        tdp = valores[3];
-                        precio = valores[4];
-                        ck.Value += id + "|" + nom + "|" + des + "|" + tdp + "|" + precio + "|";
+                        string id = valores[0];
+                        string nom = valores[1];
+                        string des = valores[2];
+                        string precio = valores[3];
+                        string img = valores[4];
+                        string tdp = valores[5];
+                        ck.Value += id + "|" + nom + "|" + des + "|" + precio + "|" + img + "|" + tdp + "|";
                         Response.Cookies.Add(ck);
                     }
                 }
@@ -89,15 +80,21 @@ namespace Proyecto2
                     if (e.CommandName == "eventoAgregarCarrito")
                     {
                         string[] valores = e.CommandArgument.ToString().Split('-');
-                        string id, tdp;
-                        string des = null, nom = null;
-                        string precio;
-                        id = valores[0];
-                        nom = valores[1];
-                        des = valores[2];
-                        tdp = valores[3];
-                        precio = valores[4];
-                        ck.Value += id + "|" + nom + "|" + des + "|" + tdp + "|" + precio + "|";
+                        string[] valoresCookie = ck.Value.Split('|');
+                        string id = valores[0];
+                        string nom = valores[1];
+                        string des = valores[2];
+                        string precio = valores[3];
+                        string img = valores[4];
+                        string tdp = valores[5];
+                        for (int i = 0; i < valoresCookie.Length - 5; i += 6)
+                        {
+                            if (nom == valoresCookie[i + 1])
+                            {
+                                Response.Redirect(Request.RawUrl);
+                            }
+                        }
+                        ck.Value += id + "|" + nom + "|" + des + "|" + precio + "|" + img + "|" + tdp + "|";
                         Response.Cookies.Add(ck);
                     }
                 }
@@ -117,16 +114,12 @@ namespace Proyecto2
                     if (e.CommandName == "eventoAgregarFavoritos")
                     {
                         string[] valores = e.CommandArgument.ToString().Split('-');
-                        string img;
-                        string id;
-                        string des = null, nom = null;
-                        string precio;
-                        img = valores[0];
-                        id = valores[1];
-                        nom = valores[2];
-                        des = valores[3];
-                        precio = valores[4];
-                        ck.Value += img + "|" + id + "|" + nom + "|" + des + "|" + precio + "|";
+                        string id = valores[0];
+                        string nom = valores[1];
+                        string des = valores[2];
+                        string precio = valores[3];
+                        string img = valores[4];
+                        ck.Value += id + "|" + nom + "|" + des + "|" + precio + "|" + img + "|";
                         Response.Cookies.Add(ck);
                     }
                 }
@@ -136,34 +129,39 @@ namespace Proyecto2
                     if (e.CommandName == "eventoAgregarFavoritos")
                     {
                         string[] valores = e.CommandArgument.ToString().Split('-');
-                        string img;
-                        string id;
-                        string des = null, nom = null;
-                        string precio;
-                        img = valores[0];
-                        id = valores[1];
-                        nom = valores[2];
-                        des = valores[3];
-                        precio = valores[4];
-                        ck.Value += img + "|" + id + "|" + nom + "|" + des + "|" + precio + "|";
+                        string[] valoresCookie = ck.Value.Split('|');
+                        string id = valores[0];
+                        string nom = valores[1];
+                        string des = valores[2];
+                        string precio = valores[3];
+                        string img = valores[4];
+                        for (int i = 0; i < valoresCookie.Length - 4; i += 5)
+                        {
+                            if (nom == valoresCookie[i + 1])
+                            {
+                                Response.Redirect(Request.RawUrl);
+                            }
+                        }
+                        ck.Value += id + "|" + nom + "|" + des + "|" + precio + "|" + img + "|";
                         Response.Cookies.Add(ck);
                     }
                 }
             }
         }
+
         protected void ddlOrdenarPor_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (ddlOrdenarPor.SelectedIndex)
             {
                 case 1:
-                        SqlDataSource1.SelectCommand = negArticulos.precioMasBajo();
-                        lvArticulos.DataSourceID = "SqlDataSource1";
-                        lvArticulos.DataBind();
+                    SqlDataSource1.SelectCommand = negArticulos.precioMasBajo();
+                    lvArticulos.DataSourceID = "SqlDataSource1";
+                    lvArticulos.DataBind();
                     break;
                 case 2:
-                        SqlDataSource1.SelectCommand = negArticulos.precioMasAlto();
-                        lvArticulos.DataSourceID = "SqlDataSource1";
-                        lvArticulos.DataBind();
+                    SqlDataSource1.SelectCommand = negArticulos.precioMasAlto();
+                    lvArticulos.DataSourceID = "SqlDataSource1";
+                    lvArticulos.DataBind();
                     break;
                 case 3:
                     SqlDataSource1.SelectCommand = negArticulos.restablecer();
@@ -252,7 +250,7 @@ namespace Proyecto2
             int indice = rblCategorias.Items.IndexOf(rblCategorias.SelectedItem);
             switch (indice)
             {
-                case 0:                  
+                case 0:
                     SqlDataSource1.SelectCommand = negArticulos.RealizarConsultaTDP("1");
                     break;
                 case 1:
@@ -267,6 +265,13 @@ namespace Proyecto2
                 case 4:
                     SqlDataSource1.SelectCommand = negArticulos.RealizarConsultaTDP("5");
                     break;
+                case 5:
+                    SqlDataSource1.SelectCommand = negArticulos.RealizarConsultaSexo("H");
+                    break;
+                case 6:
+                    SqlDataSource1.SelectCommand = negArticulos.RealizarConsultaSexo("M");
+                    break;
+
             }
             lvArticulos.DataSourceID = "SqlDataSource1";
             lvArticulos.DataBind();

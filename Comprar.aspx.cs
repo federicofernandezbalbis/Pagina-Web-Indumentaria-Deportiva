@@ -19,109 +19,70 @@ namespace Proyecto2
         NegocioDetalleVentas negDetVentas = new NegocioDetalleVentas();
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["idUsuario"] != null)
+            if (IsPostBack == false)
             {
-                string idUsuario = Session["idUsuario"].ToString();
-                if (Request.Cookies["Carrito" + idUsuario] != null)
+                Dictionary<int, string> valoresTalle = new Dictionary<int, string>();
+                Dictionary<int, string> valoresCantidad = new Dictionary<int, string>();
+
+                Session["ValoresTalle"] = valoresTalle;
+                Session["ValoresCantidad"] = valoresCantidad;
+
+                if (Session["idUsuario"] != null)
                 {
-                    HttpCookie ck = Request.Cookies["Carrito" + idUsuario];
-                    string[] valores = ck.Value.Split('|');
-                    DataTable dt = new DataTable();
-                    dt = crearTabla();
-                    agregarFila(dt, valores);
-                    grdCarrito.DataSource = dt;
-                    grdCarrito.DataBind();
+                    string idUsuario = Session["idUsuario"].ToString();
+                    if (Request.Cookies["Carrito" + idUsuario] != null)
+                    {
+                        HttpCookie ck = Request.Cookies["Carrito" + idUsuario];
+                        string[] valores = ck.Value.Split('|');
+                        DataTable dt = new DataTable();
+                        dt = negVentas.crearTabla();
+                        negVentas.agregarFila(dt, valores);
+                        lvCarrito.DataSource = dt;
+                        lvCarrito.DataBind();
+                    }
                 }
             }
         }
 
-        public DataTable crearTabla()
+        protected void lvCarrito_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
-            DataTable dt = new DataTable();
-            DataColumn columna = new DataColumn();
-
-
-
-            columna = new DataColumn("ID ARTICULO", System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("NOMBRE", System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("DESCRIPCION".ToUpper(), System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("TIPO DE PRENDA".ToUpper(), System.Type.GetType("System.String"));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("TALLE".ToUpper(), typeof(DropDownList));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("SEXO".ToUpper(), typeof(DropDownList));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("CANTIDAD".ToUpper(), typeof(DropDownList));
-            dt.Columns.Add(columna);
-            columna = new DataColumn("PRECIO".ToUpper(), typeof(double));
-            dt.Columns.Add(columna);
-
-            return dt;
-        }
-
-        public void agregarFila(DataTable TablaCarrito, string[] valores)
-        {
-
-            DropDownList ddlTalle = new DropDownList();
-            DropDownList ddlSexo = new DropDownList();
-            DropDownList ddlCant = new DropDownList();
-
-            ddlTalle.Items.Add(new ListItem("Talle S", "S"));
-            ddlTalle.Items.Add(new ListItem("Talle M", "M"));
-            ddlTalle.Items.Add(new ListItem("Talle L", "L"));
-            ddlTalle.Items.Add(new ListItem("Talle XL", "XL"));
-
-            ddlSexo.Items.Add(new ListItem("Opcion Hombre", "H"));
-            ddlSexo.Items.Add(new ListItem("Opcion Hombre", "M"));
-
-            ddlCant.Items.Add(new ListItem("cant 1", "1"));
-            ddlCant.Items.Add(new ListItem("cant 2", "2"));
-            ddlCant.Items.Add(new ListItem("cant 3", "3"));
-            ddlCant.Items.Add(new ListItem("cant 4", "4"));
-            ddlCant.Items.Add(new ListItem("cant 5", "5"));
-
-            for (int i = 0; i < valores.Length - 4; i += 5)
+            if (e.Item.ItemType == ListViewItemType.DataItem)
             {
-                DataRow dr = TablaCarrito.NewRow();
-                dr["ID ARTICULO".ToUpper()] = valores[i];
-                dr["NOMBRE".ToUpper()] = valores[i+1];
-                dr["DESCRIPCION".ToUpper()] = valores[i+2];
-                dr["TIPO DE PRENDA".ToUpper()] = valores[i + 3];
-                dr["TALLE".ToUpper()] = ddlTalle;
-                dr["SEXO".ToUpper()] = ddlSexo;
-                dr["CANTIDAD".ToUpper()] = ddlCant;
-                dr["PRECIO".ToUpper()] = valores[i+4];
-                TablaCarrito.Rows.Add(dr);
-            }
-        }
+                DataRowView rowView = (DataRowView)e.Item.DataItem;
+                Label lblID = (Label)e.Item.FindControl("IDArt");
+                Label lblNombre = (Label)e.Item.FindControl("NombreArt");
+                Label lblDescripcion = (Label)e.Item.FindControl("DescArt");
+                Label lblPrecio = (Label)e.Item.FindControl("PrecioArt");
+                ImageButton imgArt = (ImageButton)e.Item.FindControl("ImagenArt");
+                DropDownList ddlTalle = (DropDownList)e.Item.FindControl("TalleArt");
+                DropDownList ddlCantidad = (DropDownList)e.Item.FindControl("CantArt");
 
-        protected void grdCarrito_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                DataRowView rowView = (DataRowView)e.Row.DataItem;
-                DropDownList ddlTalle = (DropDownList)e.Row.FindControl("ddlTalle");
-                DropDownList ddlSexo = (DropDownList)e.Row.FindControl("ddlSexo");
-                DropDownList ddlCantidad = (DropDownList)e.Row.FindControl("ddlCantidad");
+                string id = rowView["ID ARTICULO"].ToString();
+                string nombre = rowView["NOMBRE"].ToString();
+                string descripcion = rowView["DESCRIPCION"].ToString();
+                string precio = rowView["PRECIO"].ToString();
+                string img = rowView["IMAGEN"].ToString();
+                string talle = rowView["TALLE"].ToString();
+                string cantidad = rowView["CANTIDAD"].ToString();
+                lblID.Text = id;
+                lblNombre.Text = nombre;
+                lblDescripcion.Text = descripcion;
+                lblPrecio.Text = precio;
+                imgArt.ImageUrl = img;
+                ddlTalle.SelectedValue = talle;
+                ddlCantidad.SelectedValue = cantidad;
 
-                // Configura los valores para los DropDownList
-                Articulos art = new Articulos();
-                NegocioArticulos negArt = new NegocioArticulos();
-                int tdp= Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "TIPO DE PRENDA").ToString());
+                int tdp = Convert.ToInt32(DataBinder.Eval(e.Item.DataItem, "TIPO DE PRENDA").ToString());
 
-                
-
-                if(tdp==5)
+                ddlTalle.Items.Add(new ListItem("--Seleccione talle--", "--Seleccione talle--"));
+                if (tdp == 5)
                 {
                     ddlTalle.Items.Add(new ListItem("38", "38"));
                     ddlTalle.Items.Add(new ListItem("40", "40"));
                     ddlTalle.Items.Add(new ListItem("42", "42"));
                     ddlTalle.Items.Add(new ListItem("44", "44"));
                 }
-                else if(tdp == 6)
+                else if (tdp == 6)
                 {
                     ddlTalle.Items.Add(new ListItem("L", "L"));
                 }
@@ -132,13 +93,18 @@ namespace Proyecto2
                     ddlTalle.Items.Add(new ListItem("L", "L"));
                     ddlTalle.Items.Add(new ListItem("XL", "XL"));
                 }
-
+                ddlCantidad.Items.Add(new ListItem("--Seleccione cantidad--", "--Seleccione cantidad--"));
                 ddlCantidad.Items.Add(new ListItem("1", "1"));
                 ddlCantidad.Items.Add(new ListItem("2", "2"));
                 ddlCantidad.Items.Add(new ListItem("3", "3"));
                 ddlCantidad.Items.Add(new ListItem("4", "4"));
                 ddlCantidad.Items.Add(new ListItem("5", "5"));
             }
+        }
+
+        protected void BtnEliminarCarrito_Click(object sender, EventArgs e)
+        {
+
         }
 
         protected void btnEliminar_Click(object sender, ImageClickEventArgs e)
@@ -182,67 +148,123 @@ namespace Proyecto2
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
+            bool compra = false;
             /*DECLARO LO QUE NECESITO*/
             NegocioUsuarios negUsu = new NegocioUsuarios();
             Usuarios usuario = new Usuarios();
-            NegocioArticulos negArticulos = new NegocioArticulos();
             Articulos articulos = new Articulos();
             Sexo sexo = new Sexo();
-            DataTable dt = (DataTable)grdCarrito.DataSource;
-
-
-            /*AGREGO VENTA*/
             string idUsuario = Session["idUsuario"].ToString();
-            usuario = negUsu.cargarInfoUsuario(Convert.ToInt32(Session["idUsuario"]));
-            negVentas.agregarNuevaVenta(usuario, getTotal(dt));
+            if (Request.Cookies["Carrito" + idUsuario] != null)
+            {
+                HttpCookie ck = Request.Cookies["Carrito" + idUsuario];
+
+                if (ck.Value != string.Empty)
+                {
+                    /*AGREGO VENTA*/
+                    usuario = negUsu.cargarInfoUsuario(Convert.ToInt32(Session["idUsuario"]));
+                    negVentas.agregarNuevaVenta(usuario, negVentas.getTotal(lvCarrito));
 
 
-            /*AGREGO DETALLE DE VENTA*/
-            int aux = dt.Rows.Count;
-            int idVenta = negDetVentas.getLastIdVenta();
-            for (int i = 0; i < aux; i++)
-            { 
-                DropDownList ddlCantidad = (DropDownList)dt.Rows[i]["CANTIDAD"];
-                DropDownList ddlTalle = (DropDownList)dt.Rows[i]["TALLE"];
-                if (dt.Rows[Convert.ToInt32(i)]["NOMBRE"].ToString().Contains("Hombre"))
-                {
-                    sexo.IdSexo = "H";
-                }
-                else if (dt.Rows[i]["NOMBRE"].ToString().Contains("Mujer"))
-                {
-                    sexo.IdSexo = "M";
-                }
-                else
-                {
-                    sexo.IdSexo = "U";
-                }
-                articulos = negDetVentas.cargarArticuloDetalleVenta(dt.Rows[i]["ID ARTICULO"].ToString(), ddlTalle.SelectedValue.ToString(), Convert.ToInt32(dt.Rows[i]["PRECIO"]));
-                if (negDetVentas.agregarNuevoDetalleVenta(idVenta, articulos, sexo, int.Parse(ddlCantidad.SelectedValue)))
-                {
-                    Label1.Text = "COMPRA REALIZADA";
-                }
-                else
-                {
-                    Label1.Text = "NO SE PUDO REALIZAR LA COMPRA";
+                    /*AGREGO DETALLE DE VENTA*/
+                    int idVenta = negDetVentas.getLastIdVenta();
+                    Dictionary<int, string> valoresTalle = (Dictionary<int, string>)Session["ValoresTalle"];
+                    Dictionary<int, string> valoresCantidad = (Dictionary<int, string>)Session["ValoresCantidad"];
+
+                    foreach (ListViewItem item in lvCarrito.Items)
+                    {
+
+                        Label lblPrecio = (Label)item.FindControl("PrecioArt");
+                        int precio = int.Parse(lblPrecio.Text.ToString());
+
+                        int itemIndex = item.DataItemIndex;
+                        string talle = valoresTalle[itemIndex];
+                        string cantidad = valoresCantidad[itemIndex];
+
+                        Label lblIdArticulo = (Label)item.FindControl("IDArt");
+                        string idArticulo = lblIdArticulo.Text.ToString();
+
+                        Label lblNombre = (Label)item.FindControl("NombreArt");
+                        string nombre = lblNombre.Text.ToString();
+
+                        if (nombre.Contains("Hombre"))
+                        {
+                            sexo.IdSexo = "H";
+                        }
+                        else if (nombre.Contains("Mujer"))
+                        {
+                            sexo.IdSexo = "M";
+                        }
+                        else
+                        {
+                            sexo.IdSexo = "U";
+                        }
+                        articulos = negDetVentas.cargarArticuloDetalleVenta(idArticulo, talle, precio);
+                        if (negDetVentas.agregarNuevoDetalleVenta(idVenta, articulos, sexo, int.Parse(cantidad)))
+                        {
+                            ck.Value = string.Empty;
+                            Response.Cookies.Add(ck);
+                            Session["ValoresTalle"] = null;
+                            Session["ValoresCantidad"] = null;
+                            compra = true;
+
+                        }
+                        else
+                        {
+                            compra = false;
+
+                        }
+                    }
+                    Response.Redirect(Request.RawUrl);
+                    if (compra)
+                    {
+                        Label1.Text = "COMPRA REALIZADA";
+                    }
+                    else
+                    {
+                        Label1.Text = "NO SE PUDO REALIZAR LA COMPRA";
+                    }
                 }
             }
         }
 
-        public int getTotal(DataTable dt)
+        protected void TalleArt_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int total = 0;
+            DropDownList ddlTalle = (DropDownList)sender;
+            ListViewItem listViewItem = (ListViewItem)ddlTalle.NamingContainer;
 
-            foreach (DataRow row in dt.Rows)
+            int itemIndex = listViewItem.DataItemIndex;
+            string talle = ddlTalle.SelectedValue;
+
+            Dictionary<int, string> valoresTalle = (Dictionary<int, string>)Session["ValoresTalle"];
+            valoresTalle[itemIndex] = talle;
+        }
+
+        protected void CantArt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddlCantidad = (DropDownList)sender;
+            ListViewItem listViewItem = (ListViewItem)ddlCantidad.NamingContainer;
+
+            int itemIndex = listViewItem.DataItemIndex;
+            string cantidad = ddlCantidad.SelectedValue;
+
+            Dictionary<int, string> valoresCantidad = (Dictionary<int, string>)Session["ValoresCantidad"];
+            valoresCantidad[itemIndex] = cantidad;
+        }
+
+        protected void btnBorrarCarrito_Click(object sender, EventArgs e)
+        {
+            if (Session["idUsuario"] != null)
             {
-                DropDownList ddl = (DropDownList)row["CANTIDAD"];
-                int cantidad = Convert.ToInt32(ddl.SelectedValue);
-                int precio = Convert.ToInt32(row["PRECIO"]);
-
-                int valor = precio * cantidad;
-
-                total += valor;
+                string idUsuario = Session["idUsuario"].ToString();
+                HttpCookie ck = Request.Cookies["Carrito" + idUsuario];
+                if (ck.Value != null)
+                {
+                    ck.Value = string.Empty;
+                    Response.Cookies.Add(ck);
+                    Response.Redirect(Request.RawUrl);
+                }
             }
-            return total;
         }
     }
 }

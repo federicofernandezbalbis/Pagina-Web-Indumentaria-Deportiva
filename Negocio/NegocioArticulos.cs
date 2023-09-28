@@ -7,6 +7,7 @@ using Entidades;
 using Datos;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace Negocio
 {
@@ -14,6 +15,50 @@ namespace Negocio
     {
         DaoArticulos datosArt = new DaoArticulos();
         AccesoDatos datos = new AccesoDatos();
+        public void cargarGrid(GridView grdEditar, GridView grdEliminar, NegocioArticulos articulos)
+        {
+            grdEditar.DataSource = articulos.obtenerArticulosEditar();
+            grdEditar.DataBind();
+
+            grdEliminar.DataSource = articulos.obtenerArticulos();
+            grdEliminar.DataBind();
+        }
+
+        public void llenarDDLS(DropDownList ddlAgregar_SexoArt, DropDownList ddlAgregar_CatArt, DropDownList ddlAgregar_tdpArt, DropDownList ddlAgregar_ProvArt)
+        {
+            NegocioSexo negSexo = new NegocioSexo();
+            DataTable dtSexo = negSexo.ObtenerSexo();
+
+            ddlAgregar_SexoArt.DataSource = dtSexo;
+            ddlAgregar_SexoArt.DataValueField = "IDSexo_SE";
+            ddlAgregar_SexoArt.DataTextField = "Descripcion_SE";
+            ddlAgregar_SexoArt.DataBind();
+
+            NegocioCategoria negCat = new NegocioCategoria();
+            DataTable dtCat = negCat.ObtenerCat();
+
+            ddlAgregar_CatArt.DataSource = dtCat;
+            ddlAgregar_CatArt.DataValueField = "IDCategoria_CAT";
+            ddlAgregar_CatArt.DataTextField = "NombreDeporte_CAT";
+            ddlAgregar_CatArt.DataBind();
+
+            NegocioTDP negTPD = new NegocioTDP();
+            DataTable dtTDP = negTPD.ObtenerTDP();
+
+            ddlAgregar_tdpArt.DataSource = dtTDP;
+            ddlAgregar_tdpArt.DataValueField = "IDTipo_TDP";
+            ddlAgregar_tdpArt.DataTextField = "Descripcion_TDP";
+            ddlAgregar_tdpArt.DataBind();
+
+            NegocioProveedor negProv = new NegocioProveedor();
+            DataTable dtProv = negProv.ObtenerProv();
+
+            ddlAgregar_ProvArt.DataSource = dtProv;
+            ddlAgregar_ProvArt.DataValueField = "ID";
+            ddlAgregar_ProvArt.DataTextField = "RazonSocial_PR";
+            ddlAgregar_ProvArt.DataBind();
+
+        }
 
         public bool agregarArticulo(Articulos art)
         {
@@ -112,9 +157,10 @@ namespace Negocio
 
         public string precioMasAlto()
         {
-            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] ORDER BY Precio_AR DESC";
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [Estado_AR] = 1 ORDER BY Precio_AR DESC";
                 return consulta;
         }
+        
         public string precioMasBajo()
         {
             string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] ORDER BY Precio_AR ASC";
@@ -123,19 +169,58 @@ namespace Negocio
 
         public string restablecer()
         {
-            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS]";
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] AND[Estado_AR] = 1";
             return consulta;
         }
+        
         public string ordenarPorDeporte(string deporte)
         {
-            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [IDCategoria_AR]=" + deporte;
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [IDCategoria_AR]=" + deporte + " AND [Estado_AR] = 1";
             return consulta;
         }
         
         public string RealizarConsultaTDP(string cat)
         {
-            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [IDTipo_AR]=" + cat;
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [IDTipo_AR]=" + cat + " AND [Estado_AR] = 1";
             return consulta;
         }
+
+        public string RealizarConsultaSexo(string sex)
+        {
+            string consulta = "SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [IDSexo_AR]= '" + sex + "' AND [Estado_AR] = 1";
+            return consulta;
+        }
+
+        public DataTable crearTablaFavoritos()
+        {
+            DataTable dt = new DataTable();
+            DataColumn columna = new DataColumn();
+            columna = new DataColumn("ID ARTICULO", System.Type.GetType("System.String"));
+            dt.Columns.Add(columna);
+            columna = new DataColumn("NOMBRE", System.Type.GetType("System.String"));
+            dt.Columns.Add(columna);
+            columna = new DataColumn("DESCRIPCION".ToUpper(), System.Type.GetType("System.String"));
+            dt.Columns.Add(columna);
+            columna = new DataColumn("PRECIO".ToUpper(), System.Type.GetType("System.String"));
+            dt.Columns.Add(columna);
+            columna = new DataColumn("IMAGEN", System.Type.GetType("System.String"));
+            dt.Columns.Add(columna);
+            return dt;
+        }
+
+        public void agregarFilaFav(DataTable TablaFavoritos, string[] valores)
+        {
+            for (int i = 0; i < valores.Length - 4; i += 5)
+            {
+                DataRow dr = TablaFavoritos.NewRow();
+                dr["ID ARTICULO".ToUpper()] = valores[i];
+                dr["NOMBRE".ToUpper()] = valores[i + 1];
+                dr["DESCRIPCION".ToUpper()] = valores[i + 2];
+                dr["PRECIO".ToUpper()] = valores[i + 3].ToString();
+                dr["IMAGEN"] = valores[i + 4];
+                TablaFavoritos.Rows.Add(dr);
+            }
+        }
+
     }
 }

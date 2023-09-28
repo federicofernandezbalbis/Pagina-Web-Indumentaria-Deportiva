@@ -23,6 +23,7 @@ namespace Proyecto2
             }
             return -1;
         }
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -44,6 +45,7 @@ namespace Proyecto2
             }
 
         }
+        
         public void cargarLabel(Usuarios usuID)
         {
             lblNombre.Text = usuID.Nombre;

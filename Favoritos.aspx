@@ -82,12 +82,12 @@
                             <div class="txtFav">
                                 $<asp:Label ID="PrecioArt" runat="server" Text='' />
                             </div>
-                            <button id="btnEliminarFav" class="eliminarBtn" runat="server" onserverclick="BtnEliminarFav_Click">
-                                <i class="fas fa-trash fa-2x"></i>
-                            </button>
                         </div>
                     </ItemTemplate>
                 </asp:ListView>
+            </div>
+            <div class="botonesFavoritos">
+                <asp:Button ID="btnBorrarFavoritos" CssClass="btnFavoritos" runat="server" Text="Borrar" OnClick="btnBorrarFavoritos_Click"/>
             </div>
         </main>
         <footer>

@@ -492,6 +492,15 @@ namespace Proyecto2
         protected global::System.Web.UI.WebControls.GridView grdUsuarios;
 
         /// <summary>
+        /// Control lblEliminar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEliminar;
+
+        /// <summary>
         /// Control Chart1.
         /// </summary>
         /// <remarks>

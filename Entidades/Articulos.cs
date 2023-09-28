@@ -16,7 +16,7 @@ namespace Entidades
         private Proveedores proveedor;
         private String nombre;
         private String descripcion;
-        private decimal precio;
+        private int precio;
         private int stock;
         private bool estado;
         private String imgProducto;
@@ -32,7 +32,7 @@ namespace Entidades
         public Proveedores Proveedor { get => proveedor; set => proveedor = value; }
         public string Nombre { get => nombre; set => nombre = value; }
         public string Descripcion { get => descripcion; set => descripcion = value; }
-        public decimal Precio { get => precio; set => precio = value; }
+        public int Precio { get => precio; set => precio = value; }
         public int Stock { get => stock; set => stock = value; }
         public bool Estado { get => estado; set => estado = value; }
         public string ImgProducto { get => imgProducto; set => imgProducto = value; }

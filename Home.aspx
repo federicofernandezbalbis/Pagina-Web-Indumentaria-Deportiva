@@ -73,7 +73,7 @@
         </header>
         <main id="home">
             <div class="main-banner" style="background-image:url(Imagenes/d4.jpg)">
-                <h2>Hasta 12 cuoutas sin interés</h2>
+                <h2>Hasta 12 cuotas sin interés</h2>
                 <h1>COMPRÁ LOS MEJORES ACCESORIOS</h1>
                 <a href="Artículos.aspx">VER MÁS</a>
             </div>

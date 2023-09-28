@@ -211,7 +211,7 @@
                                 <br />
                                 $<asp:Label ID="Precio_ARLabel" runat="server" Text='<%# Eval("Precio_AR", "{0:N}") %>' />
                                 <br />
-                                <asp:Button ID="btnAgregarCarrito" runat="server" Text="Agregar al carrito" CommandArgument='<%# Eval("IDArt_AR") + "-" + Eval("Nombre_AR")+ "-" +Eval("Descripcion_AR")+ "-" +Eval("IDTipo_AR")+ "-" + Eval("Precio_AR") %>' CommandName="eventoAgregarCarrito" OnCommand="btnAgregarCarrito_Command" BackColor="Blue" BorderColor="White" Font-Bold="True" ForeColor="White" />
+                                <asp:Button ID="btnAgregarCarrito" runat="server" Text="Agregar al carrito" CommandArgument='<%# Eval("IDArt_AR") + "-" + Eval("Nombre_AR")+ "-" + Eval("Descripcion_AR")+ "-" + Eval("Precio_AR") + "-" + Eval("URL_Imagen_Producto") + "-" + Eval("IDTipo_AR") %>' CommandName="eventoAgregarCarrito" OnCommand="btnAgregarCarrito_Command" BackColor="Blue" BorderColor="White" Font-Bold="True" ForeColor="White" />
 
                                 <asp:Button ID="AgregarFavoritos" runat="server" BackColor="Blue" BorderColor="White" Font-Bold="True" ForeColor="White" Text="Favoritos" CommandArgument='<%# Eval("IDArt_AR") + "-" + Eval("Nombre_AR")+ "-" +Eval("Descripcion_AR")+ "-" + Eval("Precio_AR") + "-" + Eval("URL_Imagen_Producto") %>' CommandName="eventoAgregarFavoritos" OnCommand="btnAgregarFavoritos_Command" />
 
@@ -271,9 +271,9 @@
                     </asp:ListView>
                     </ContentTemplate>
                  </asp:UpdatePanel>
-                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TIRO_LIBREConnectionString %>" SelectCommand="SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS]"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TIRO_LIBREConnectionString %>" SelectCommand="SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR], [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto] FROM [ARTICULOS] WHERE [Estado_AR] = 1"></asp:SqlDataSource>
                     <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:TIRO_LIBREConnectionString %>" SelectCommand="SELECT DISTINCT [IDArt_AR], [Nombre_AR], [Descripcion_AR],  [IDTipo_AR], [Precio_AR], [URL_Imagen_Producto]
-                        FROM [ARTICULOS] WHERE [Nombre_AR] LIKE '%' + @Param1 + '%'">
+                        FROM [ARTICULOS] WHERE [Nombre_AR] LIKE '%' + @Param1 + '%' AND [Estado_AR] = 1">
                         <SelectParameters>
                             <asp:Parameter Name="Param1" Type="String" DefaultValue="" />
                         </SelectParameters>

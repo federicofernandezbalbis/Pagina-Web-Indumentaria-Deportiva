@@ -75,13 +75,13 @@ namespace Datos
         private void ArmarParametrosVentaAgregar(ref SqlCommand cmd, Ventas ven)
         {
             SqlParameter sqlParametros = new SqlParameter();
-            sqlParametros = cmd.Parameters.Add("@IDUSUARIO", SqlDbType.Char);
+            sqlParametros = cmd.Parameters.Add("@IDUSUARIO", SqlDbType.Int);
             sqlParametros.Value = ven.Usuario.IdUsuario;
             sqlParametros = cmd.Parameters.Add("@DNI", SqlDbType.Char);
             sqlParametros.Value = ven.Usuario.Dni;
             sqlParametros = cmd.Parameters.Add("@TELEFONO", SqlDbType.Char);
             sqlParametros.Value = ven.Usuario.Telefono;
-            sqlParametros = cmd.Parameters.Add("@TOTAL", SqlDbType.Char);
+            sqlParametros = cmd.Parameters.Add("@TOTAL", SqlDbType.Int);
             sqlParametros.Value = ven.Total;
         }
     }

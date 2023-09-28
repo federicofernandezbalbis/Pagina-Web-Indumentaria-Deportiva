@@ -161,7 +161,7 @@ header {
     .main-banner h2 {
         position: absolute;
         top: 220px;
-        right: 237px;
+        right: 262px;
         font-size: 34px;
         font-family: 'Graduate', cursive;
     }
@@ -473,19 +473,33 @@ header {
     backdrop-filter: blur(5px);
 }
 
-.eliminarBtn {
-    padding:15px;
-    background-color:transparent;
-    border:none;
+.botonesFavoritos {
     margin:auto;
+    text-align:center;
+    margin-top: 15px;
 }
 
-.eliminarBtn i {
-    color: white;
+.btnFavoritos {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
+    font-family: 'Graduate', cursive;
 }
 
-.eliminarBtn i:hover{
-    color:red;
+.botonesComprar {
+    display: flex;
+    width:25vw;
+    margin: auto;
+    justify-content: space-evenly;
+    margin-top: 15px;
+}
+
+.btnCarrito {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: white;
+    font-family: 'Graduate', cursive;
+    text-align: center;
 }
 
 .txtFav {
@@ -709,7 +723,7 @@ footer {
     .main-banner h2 {
         font-size: 26px;
         top: 205px;
-        right: 157px;
+        right: 175px;
     }
     .main-banner a {
         top: 250px;
@@ -726,7 +740,7 @@ footer {
     .main-banner h2 {
         font-size: 22px;
         top: 205px;
-        right: 150px;
+        right: 168px;
     }
     .main-banner a {
         top: 250px;

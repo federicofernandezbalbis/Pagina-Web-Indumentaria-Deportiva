@@ -210,15 +210,187 @@
                     </SelectParameters>
                 </asp:SqlDataSource>
                 <br />
-                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:TIRO_LIBREConnectionString1 %>" SelectCommand="SELECT DISTINCT [IDVENTA_DV], [IDUsuario_US], [IDART_DV], [IDSexo_DV], [TALLE_DV], [CANTIDAD_DV], [PRECIOUNITARIO_DV] FROM DETALLEVENTAS INNER JOIN VENTAS ON IDVenta_DV = IDVenta_VE INNER JOIN USUARIOS ON IDUsuario_US = IDUsuario_VE WHERE IDUsuario_US = '+ @Param1 +' AND IDVenta_DV = '+ @Param2 +'">
-                 <SelectParameters>
+                        <asp:ListView ID="ListView2" runat="server" DataKeyNames="Numero de venta,ID del usuario,N° de artículo,Sexo,Talle" DataSourceID="SqlDataSource2">
+            <AlternatingItemTemplate>
+                <tr style="background-color: #FAFAD2;color: #284775;">
+                    <td>
+                        <asp:Label ID="Numero_de_ventaLabel" runat="server" Text='<%# Eval("[Numero de venta]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="ID_del_usuarioLabel" runat="server" Text='<%# Eval("[ID del usuario]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="N__de_artículoLabel" runat="server" Text='<%# Eval("[N° de artículo]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="SexoLabel" runat="server" Text='<%# Eval("Sexo") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="TalleLabel" runat="server" Text='<%# Eval("Talle") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="UnidadesLabel" runat="server" Text='<%# Eval("Unidades") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="Precio_unitarioLabel" runat="server" Text='<%# Eval("[Precio unitario]") %>' />
+                    </td>
+                </tr>
+            </AlternatingItemTemplate>
+            <EditItemTemplate>
+                <tr style="background-color: #FFCC66;color: #000080;">
+                    <td>
+                        <asp:Button ID="UpdateButton" runat="server" CommandName="Update" Text="Actualizar" />
+                        <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancelar" />
+                    </td>
+                    <td>
+                        <asp:Label ID="Numero_de_ventaLabel1" runat="server" Text='<%# Eval("[Numero de venta]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="ID_del_usuarioLabel1" runat="server" Text='<%# Eval("[ID del usuario]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="N__de_artículoLabel1" runat="server" Text='<%# Eval("[N° de artículo]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="SexoLabel1" runat="server" Text='<%# Eval("Sexo") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="TalleLabel1" runat="server" Text='<%# Eval("Talle") %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="UnidadesTextBox" runat="server" Text='<%# Bind("Unidades") %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="Precio_unitarioTextBox" runat="server" Text='<%# Bind("[Precio unitario]") %>' />
+                    </td>
+                </tr>
+            </EditItemTemplate>
+            <EmptyDataTemplate>
+                <table runat="server" style="background-color: #FFFFFF;border-collapse: collapse;border-color: #999999;border-style:none;border-width:1px;">
+                    <tr>
+                        <td>No se han devuelto datos.</td>
+                    </tr>
+                </table>
+            </EmptyDataTemplate>
+            <InsertItemTemplate>
+                <tr style="">
+                    <td>
+                        <asp:Button ID="InsertButton" runat="server" CommandName="Insert" Text="Insertar" />
+                        <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Borrar" />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="Numero_de_ventaTextBox" runat="server" Text='<%# Bind("[Numero de venta]") %>' />
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>
+                        <asp:TextBox ID="N__de_artículoTextBox" runat="server" Text='<%# Bind("[N° de artículo]") %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="SexoTextBox" runat="server" Text='<%# Bind("Sexo") %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TalleTextBox" runat="server" Text='<%# Bind("Talle") %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="UnidadesTextBox" runat="server" Text='<%# Bind("Unidades") %>' />
+                    </td>
+                    <td>
+                        <asp:TextBox ID="Precio_unitarioTextBox" runat="server" Text='<%# Bind("[Precio unitario]") %>' />
+                    </td>
+                </tr>
+            </InsertItemTemplate>
+            <ItemTemplate>
+                <tr style="background-color: #FFFBD6;color: #333333;">
+                    <td>
+                        <asp:Label ID="Numero_de_ventaLabel" runat="server" Text='<%# Eval("[Numero de venta]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="ID_del_usuarioLabel" runat="server" Text='<%# Eval("[ID del usuario]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="N__de_artículoLabel" runat="server" Text='<%# Eval("[N° de artículo]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="SexoLabel" runat="server" Text='<%# Eval("Sexo") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="TalleLabel" runat="server" Text='<%# Eval("Talle") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="UnidadesLabel" runat="server" Text='<%# Eval("Unidades") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="Precio_unitarioLabel" runat="server" Text='<%# Eval("[Precio unitario]") %>' />
+                    </td>
+                </tr>
+            </ItemTemplate>
+            <LayoutTemplate>
+                <table runat="server">
+                    <tr runat="server">
+                        <td runat="server">
+                            <table id="itemPlaceholderContainer" runat="server" border="1" style="background-color: #FFFFFF;border-collapse: collapse;border-color: #999999;border-style:none;border-width:1px;font-family: Verdana, Arial, Helvetica, sans-serif;">
+                                <tr runat="server" style="background-color: #FFFBD6;color: #333333;">
+                                    <th runat="server">Numero de venta</th>
+                                    <th runat="server">ID del usuario</th>
+                                    <th runat="server">N° de artículo</th>
+                                    <th runat="server">Sexo</th>
+                                    <th runat="server">Talle</th>
+                                    <th runat="server">Unidades</th>
+                                    <th runat="server">Precio unitario</th>
+                                </tr>
+                                <tr id="itemPlaceholder" runat="server">
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr runat="server">
+                        <td runat="server" style="text-align: center;background-color: #FFCC66;font-family: Verdana, Arial, Helvetica, sans-serif;color: #333333;"></td>
+                    </tr>
+                </table>
+            </LayoutTemplate>
+            <SelectedItemTemplate>
+                <tr style="background-color: #FFCC66;font-weight: bold;color: #000080;">
+                    <td>
+                        <asp:Label ID="Numero_de_ventaLabel" runat="server" Text='<%# Eval("[Numero de venta]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="ID_del_usuarioLabel" runat="server" Text='<%# Eval("[ID del usuario]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="N__de_artículoLabel" runat="server" Text='<%# Eval("[N° de artículo]") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="SexoLabel" runat="server" Text='<%# Eval("Sexo") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="TalleLabel" runat="server" Text='<%# Eval("Talle") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="UnidadesLabel" runat="server" Text='<%# Eval("Unidades") %>' />
+                    </td>
+                    <td>
+                        <asp:Label ID="Precio_unitarioLabel" runat="server" Text='<%# Eval("[Precio unitario]") %>' />
+                    </td>
+                </tr>
+            </SelectedItemTemplate>
+        </asp:ListView>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:TIRO_LIBREConnectionString1 %>"
+                    SelectCommand="SELECT DISTINCT [IDVENTA_DV] AS [Numero de venta], [IDUsuario_US] AS [ID del usuario], [IDART_DV] AS [N° de artículo], [IDSexo_DV] AS [Sexo], [TALLE_DV] AS [Talle], [CANTIDAD_DV] AS [Unidades], [PRECIOUNITARIO_DV] [Precio unitario] 
+                   FROM DETALLEVENTAS 
+                   INNER JOIN VENTAS ON IDVenta_DV = IDVenta_VE 
+                   INNER JOIN USUARIOS ON IDUsuario_US = IDUsuario_VE 
+                   WHERE IDUsuario_US = @Param1 AND IDVenta_DV = @Param2">
+                    <SelectParameters>
                         <asp:Parameter Name="Param1" Type="String" DefaultValue="" />
-                     <asp:Parameter Name="Param2" Type="String" DefaultValue="" />
+                        <asp:Parameter Name="Param2" Type="String" DefaultValue="" />
                     </SelectParameters>
-                    </asp:SqlDataSource>
+                </asp:SqlDataSource>
             </div>
             <br />
+
         </main>
+
+            <br />
         <footer>
             <div class="main-footer">
                 <div class="social-media">

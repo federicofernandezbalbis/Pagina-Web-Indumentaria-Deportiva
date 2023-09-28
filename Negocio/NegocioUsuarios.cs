@@ -7,6 +7,7 @@ using Entidades;
 using Datos;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace Negocio
 {
@@ -19,6 +20,13 @@ namespace Negocio
         {
             return dus.getTablaUsuarios();
         }
+
+        public void cargarGridUsuarios(GridView grdUsuarios, NegocioUsuarios usuarios)
+        {
+            grdUsuarios.DataSource = usuarios.obtenerUsuarios();
+            grdUsuarios.DataBind();
+        }
+
         public int getIDUsuario(string mail)
         {
             Usuarios usu = new Usuarios();
@@ -50,7 +58,7 @@ namespace Negocio
 
         public Boolean existeMailUsuario(string mail)
         {
-            if (ds.existe("SELECT Mail_US FROM USUARIOS WHERE Mail_US = '" + mail + "'") == true)
+            if (ds.existe("SELECT Mail_US FROM USUARIOS WHERE Mail_US = '" + mail + "' AND [Estado_US] = 1") == true)
             {
                 return true;
             }
@@ -59,7 +67,7 @@ namespace Negocio
 
         public Boolean existeDNIUsuario(string DNI)
         {
-            if (ds.existe("SELECT DNI_US FROM USUARIOS WHERE DNI_US = '" + DNI + "'") == true)
+            if (ds.existe("SELECT DNI_US FROM USUARIOS WHERE DNI_US = '" + DNI + "' AND [Estado_US] = 1") == true)
             {
                 return true;
             }
@@ -68,7 +76,7 @@ namespace Negocio
 
         public Boolean existeNombreUsuario(string NombreUsuario)
         {
-            if (ds.existe("SELECT NombreUsuario_US FROM USUARIOS WHERE NombreUsuario_US = '" + NombreUsuario + "'") == true)
+            if (ds.existe("SELECT NombreUsuario_US FROM USUARIOS WHERE NombreUsuario_US = '" + NombreUsuario + "' AND [Estado_US] = 1") == true)
             {
                 return true;
             }
@@ -77,7 +85,7 @@ namespace Negocio
 
         public Boolean existeContraseñaUsuario(string contraseña)
         {
-            if (ds.existe("SELECT * FROM USUARIOS WHERE Contraseña_US = '" + contraseña + "'") == true)
+            if (ds.existe("SELECT * FROM USUARIOS WHERE Contraseña_US = '" + contraseña + "' AND [Estado_US] = 1") == true)
             {
                 return true;
             }

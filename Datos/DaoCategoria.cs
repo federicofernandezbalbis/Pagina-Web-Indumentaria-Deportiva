@@ -15,13 +15,13 @@ namespace Datos
 
         public DataTable getTablaCategoria()
         {
-            DataTable tabla = ds.ObtenerTabla("CATEGORIAS", "SELECT * FROM CATEGORIAS");
+            DataTable tabla = ds.ObtenerTabla("CATEGORIAS", "SELECT * FROM CATEGORIAS WHERE [Estado_CAT] = 1");
             return tabla;
         }
 
         public Categorias getCategoria(Categorias cat)
         {
-            DataTable tabla = ds.ObtenerTabla("CATEGORIAS", "SELECT * FROM CATEGORIAS WHERE IDCategoria_CAT = " + cat.IdCategoria);
+            DataTable tabla = ds.ObtenerTabla("CATEGORIAS", "SELECT * FROM CATEGORIAS WHERE IDCategoria_CAT = " + cat.IdCategoria + " AND [Estado_CAT] = 1");
             cat.IdCategoria = Convert.ToInt32(tabla.Rows[0][0].ToString());
             cat.NombreDeporte = tabla.Rows[0][1].ToString();
             return cat;

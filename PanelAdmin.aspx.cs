@@ -30,11 +30,11 @@ namespace Proyecto2
         {
             if (!IsPostBack)
             {
-                llenarDDLS();
-                cargarGrid();
-                cargarGridCategorias();
-                cargarGridTDP();
-                cargarGridUsuarios();
+                articulos.llenarDDLS(ddlAgregar_SexoArt, ddlAgregar_CatArt, ddlAgregar_tdpArt, ddlAgregar_ProvArt);
+                articulos.cargarGrid(grdEditar, grdEliminar, articulos);
+                categorias.cargarGridCategorias(grdEliminarCat, categorias);
+                tipodeprendas.cargarGridTDP(grdEliminarTdp, tipodeprendas);
+                usuarios.cargarGridUsuarios(grdUsuarios, usuarios);
 
                 AgregarArticulo.Visible = false;
                 grdHistorial.Visible = false;
@@ -42,43 +42,12 @@ namespace Proyecto2
             }
             grdEliminar.RowDeleting += grdEliminar_RowDeleting;
         }
-        public void cargarGrid()
-        {
-            grdEditar.DataSource = articulos.obtenerArticulosEditar();
-            grdEditar.DataBind();
 
-            grdEliminar.DataSource = articulos.obtenerArticulos();
-            grdEliminar.DataBind();
-        }
 
-        public void cargarGridVentas()
-        {
-            grdHistorial.DataSource = ventas.ObtenerVentas();
-            grdEditar.DataBind();
-        }
-
-        public void cargarGridCategorias()
-        {
-            grdEliminarCat.DataSource = categorias.ObtenerCat();
-            grdEliminarCat.DataBind();
-        }
-
-        public void cargarGridTDP()
-        {
-            grdEliminarTdp.DataSource = tipodeprendas.ObtenerTDP();
-            grdEliminarTdp.DataBind();
-        }
-
-        public void cargarGridUsuarios()
-        {
-            grdUsuarios.DataSource = usuarios.obtenerUsuarios();
-            grdUsuarios.DataBind();
-        }
-
-        /*----------------------------------------------------------------------------------------*/
         /*-----------Botones que manejan que gridview aparece en pantalla (agregar, eliminar etc.)*/
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEditar.Visible = false;
             grdEliminar.Visible = false;
             grdHistorial.Visible = false;
@@ -89,8 +58,10 @@ namespace Proyecto2
             grdEliminarTdp.Visible = false;
             grdUsuarios.Visible = false;
         }
+        
         protected void btnEditar_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEliminar.Visible = false;
             grdHistorial.Visible = false;
             containerAgregar.Visible = false;
@@ -103,8 +74,10 @@ namespace Proyecto2
             grdEliminar.DataSource = articulos.obtenerArticulosEditar();
             grdEliminar.DataBind();
         }
+        
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEditar.Visible = false;
             grdHistorial.Visible = false;
             grdEliminar.Visible = true;
@@ -117,8 +90,10 @@ namespace Proyecto2
             grdEliminar.DataSource = articulos.obtenerArticulos();
             grdEliminar.DataBind();
         }
+        
         protected void btnHistorial_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEditar.Visible = false;
             grdEliminar.Visible = false;
             grdHistorial.Visible = true;
@@ -130,8 +105,10 @@ namespace Proyecto2
             Chart1.Visible = true;
             grdUsuarios.Visible = false;
         }
+        
         protected void btnNuevaCat_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEditar.Visible = false;
             grdEliminar.Visible = false;
             grdHistorial.Visible = false;
@@ -142,8 +119,10 @@ namespace Proyecto2
             grdEliminarTdp.Visible = false;
             grdUsuarios.Visible = false;
         }
+        
         protected void btnEliminarCategoria_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEditar.Visible = false;
             grdEliminar.Visible = false;
             grdHistorial.Visible = false;
@@ -155,8 +134,10 @@ namespace Proyecto2
             Chart1.Visible = false;
             grdUsuarios.Visible = false;
         }
+        
         protected void btnUsuarios_Click(object sender, EventArgs e)
         {
+            lblEliminar.Text = "";
             grdEditar.Visible = false;
             grdEliminar.Visible = false;
             grdHistorial.Visible = false;
@@ -169,18 +150,20 @@ namespace Proyecto2
             grdUsuarios.Visible = true;
         }
 
-        /*----------------------------------------------------------------------------------------*/
+
         /*------------------------Eventos de los gridview----------------------------------------*/
         protected void grdEditar_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grdEditar.PageIndex = e.NewPageIndex;
-            cargarGrid();
+            articulos.cargarGrid(grdEditar, grdEliminar, articulos);
         }
+        
         protected void grdEliminar_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             grdEliminar.PageIndex = e.NewPageIndex;
-            cargarGrid();
+            articulos.cargarGrid(grdEditar, grdEliminar, articulos);
         }
+        
         protected void grdEliminar_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int rowIndex = e.RowIndex;
@@ -202,10 +185,17 @@ namespace Proyecto2
                 art.Talle = idTalle;
             }
 
-            articulos.eliminarArticuloNegocio(art);
+            if(articulos.eliminarArticuloNegocio(art)==1)
+            {
+                lblEliminar.Text = "Articulo eliminado";
+            }else
+            {
+                lblEliminar.Text = "Error al eliminar";
+            }
             grdEliminar.DataSource = articulos.obtenerArticulos();
             grdEliminar.DataBind();
         }
+        
         protected void grdEditar_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             String s_idArticulo = ((Label)grdEditar.Rows[e.RowIndex].FindControl("lbl_eit_ID")).Text;
@@ -234,7 +224,7 @@ namespace Proyecto2
             art.IdArticulo = s_idArticulo;
             art.Nombre = s_Nombre;
             art.Descripcion = s_Descripcion;
-            art.Precio = Convert.ToDecimal(s_Precio);
+            art.Precio = Convert.ToInt32(s_Precio);
             art.ImgProducto = s_Imagen;
             art.Sexo = se;
             art.Talle = s_idTalle;
@@ -246,53 +236,22 @@ namespace Proyecto2
 
             articulos.editarArticuloNegocio(art);
             grdEditar.EditIndex = -1;
-            cargarGrid();
+            articulos.cargarGrid(grdEditar, grdEliminar, articulos);
         }
+        
         protected void grdEditar_RowEditing(object sender, GridViewEditEventArgs e)
         {
             grdEditar.EditIndex = e.NewEditIndex;
-            cargarGrid();
+            articulos.cargarGrid(grdEditar, grdEliminar, articulos);
         }
+        
         protected void grdEditar_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             grdEditar.EditIndex = -1;
-            cargarGrid();
+            articulos.cargarGrid(grdEditar, grdEliminar, articulos);
         }
-        public void llenarDDLS()
-        {
-            NegocioSexo negSexo = new NegocioSexo();
-            DataTable dtSexo = negSexo.ObtenerSexo();
-
-            ddlAgregar_SexoArt.DataSource = dtSexo;
-            ddlAgregar_SexoArt.DataValueField = "IDSexo_SE";
-            ddlAgregar_SexoArt.DataTextField = "Descripcion_SE";
-            ddlAgregar_SexoArt.DataBind();
-
-            NegocioCategoria negCat = new NegocioCategoria();
-            DataTable dtCat = negCat.ObtenerCat();
-
-            ddlAgregar_CatArt.DataSource = dtCat;
-            ddlAgregar_CatArt.DataValueField = "IDCategoria_CAT";
-            ddlAgregar_CatArt.DataTextField = "NombreDeporte_CAT";
-            ddlAgregar_CatArt.DataBind();
-
-            NegocioTDP negTPD = new NegocioTDP();
-            DataTable dtTDP = negTPD.ObtenerTDP();
-
-            ddlAgregar_tdpArt.DataSource = dtTDP;
-            ddlAgregar_tdpArt.DataValueField = "IDTipo_TDP";
-            ddlAgregar_tdpArt.DataTextField = "Descripcion_TDP";
-            ddlAgregar_tdpArt.DataBind();
-
-            NegocioProveedor negProv = new NegocioProveedor();
-            DataTable dtProv = negProv.ObtenerProv();
-
-            ddlAgregar_ProvArt.DataSource = dtProv;
-            ddlAgregar_ProvArt.DataValueField = "ID";
-            ddlAgregar_ProvArt.DataTextField = "RazonSocial_PR";
-            ddlAgregar_ProvArt.DataBind();
-
-        }
+        
+        
         protected void grdEliminarCat_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             String s_IdCat = ((Label)grdEliminarCat.Rows[e.RowIndex].FindControl("lbl_it_idCat")).Text;
@@ -300,10 +259,18 @@ namespace Proyecto2
             Categorias cat = new Categorias();
             cat.IdCategoria = Convert.ToInt32(s_IdCat);
 
-            categorias.eliminarCategoria(cat);
+            if (categorias.eliminarCategoria(cat) == 1)
+            {
+                lblEliminar.Text = "Categoria eliminada";
+            }
+            else
+            {
+                lblEliminar.Text = "Error al eliminar";
+            }
 
-            cargarGridCategorias();
+            categorias.cargarGridCategorias(grdEliminarCat, categorias);
         }
+        
         protected void grdEliminarTDP_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             String s_IdTipo = ((Label)grdEliminarTdp.Rows[e.RowIndex].FindControl("lbl_it_IDTipo")).Text;
@@ -311,10 +278,20 @@ namespace Proyecto2
             TipoDePrenda tdp = new TipoDePrenda();
             tdp.IdTipoPrenda = Convert.ToInt32(s_IdTipo);
 
-            tipodeprendas.eliminarTDP(tdp);
 
-            cargarGridTDP();
+            if (tipodeprendas.eliminarTDP(tdp) == 1)
+            {
+                lblEliminar.Text = "Tipo de prenda eliminado";
+            }
+            else
+            {
+                lblEliminar.Text = "Error al eliminar";
+            }
+
+
+            tipodeprendas.cargarGridTDP(grdEliminarTdp, tipodeprendas);
         }
+        
         protected void grdUsuarios_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             String s_IdUsuario = ((Label)grdUsuarios.Rows[e.RowIndex].FindControl("lbl_it_IdUser")).Text;
@@ -322,10 +299,19 @@ namespace Proyecto2
             Usuarios usuario = new Usuarios();
 
             usuario.IdUsuario = Convert.ToInt32(s_IdUsuario);
-            usuarios.eliminarUsuario(usuario);
 
-            cargarGridUsuarios();
+            if (usuarios.eliminarUsuario(usuario) == 1)
+            {
+                lblEliminar.Text = "Usuario eliminado";
+            }
+            else
+            {
+                lblEliminar.Text = "Error al eliminar";
+            }
+
+            usuarios.cargarGridUsuarios(grdUsuarios, usuarios);
         }
+        
         protected void grdUsuarios_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             String s_IdUsuario = ((Label)grdUsuarios.Rows[e.RowIndex].FindControl("lbl_it_IdUser")).Text;
@@ -333,20 +319,21 @@ namespace Proyecto2
             usuario.IdUsuario = Convert.ToInt32(s_IdUsuario);
             usuarios.editarUsuario(usuario);
             grdUsuarios.EditIndex = -1;
-            cargarGridUsuarios();
+            usuarios.cargarGridUsuarios(grdUsuarios, usuarios);
         }
-
+        
         protected void grdUsuarios_RowEditing(object sender, GridViewEditEventArgs e)
         {
             grdUsuarios.EditIndex = e.NewEditIndex;
-            cargarGridUsuarios();
+            usuarios.cargarGridUsuarios(grdUsuarios, usuarios);
         }
-
+        
         protected void grdUsuarios_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             grdUsuarios.EditIndex = -1;
-            cargarGridUsuarios();
+            usuarios.cargarGridUsuarios(grdUsuarios, usuarios);
         }
+
 
         /*----------------------Eventos de los botones principales en los gridview-------------------*/
         protected void agregarTDP_Click(object sender, EventArgs e)
@@ -380,6 +367,7 @@ namespace Proyecto2
             txtIDTDP.Text = "";
             txtDescripcionPrenda.Text = "";
         }
+        
         protected void btnAgregarArt_Click(object sender, EventArgs e)
         {
             Articulos art = new Articulos();
@@ -405,7 +393,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -428,7 +416,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -443,7 +431,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -458,7 +446,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -482,7 +470,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -505,7 +493,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -520,7 +508,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -535,7 +523,7 @@ namespace Proyecto2
                             art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                             art.Nombre = txtAgregar_NombreArt.Text;
                             art.Descripcion = txtAgregar_DescArt.Text;
-                            art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                            art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                             art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                             art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                             art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -554,7 +542,7 @@ namespace Proyecto2
                 art.Proveedor = negProv.GetProvId(ddlAgregar_ProvArt.SelectedValue);
                 art.Nombre = txtAgregar_NombreArt.Text;
                 art.Descripcion = txtAgregar_DescArt.Text;
-                art.Precio = Convert.ToDecimal(txtAgregar_PrecioArt.Text);
+                art.Precio = Convert.ToInt32(txtAgregar_PrecioArt.Text);
                 art.Stock = Convert.ToInt32(txtAgregar_StockArt.Text);
                 art.Estado = Convert.ToBoolean(ddlAgregar_EstadoArt.SelectedValue);
                 art.ImgProducto = txtAgregar_ImgArt.Text;
@@ -569,6 +557,7 @@ namespace Proyecto2
             }
 
         }
+        
         protected void agregarCategoria_Click(object sender, EventArgs e)
         {
             Categorias CAT = new Categorias();
@@ -601,6 +590,7 @@ namespace Proyecto2
             txtIDCat.Text = "";
             txtNombreDeporte.Text = "";
         }
+        
         protected void grdHistorial_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "VerDetalle")
@@ -615,8 +605,7 @@ namespace Proyecto2
                 grdHistorial.Visible = false;
             }
         }
-
-
+        
         protected void grdEliminar_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -658,13 +647,6 @@ namespace Proyecto2
             }
         }
 
-
-
-
-
-
-
-        /*---------------------------------------------------------------------------------------------*/
     }
 
 

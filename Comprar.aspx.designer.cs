@@ -87,13 +87,13 @@ namespace Proyecto2
         protected global::System.Web.UI.WebControls.Button btnCerrarSesion;
 
         /// <summary>
-        /// Control grdCarrito.
+        /// Control lvCarrito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdCarrito;
+        protected global::System.Web.UI.WebControls.ListView lvCarrito;
 
         /// <summary>
         /// Control btnComprar.
@@ -103,6 +103,15 @@ namespace Proyecto2
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnComprar;
+
+        /// <summary>
+        /// Control btnBorrarCarrito.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBorrarCarrito;
 
         /// <summary>
         /// Control Label1.

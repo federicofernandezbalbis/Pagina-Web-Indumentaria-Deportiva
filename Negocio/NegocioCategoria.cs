@@ -7,6 +7,7 @@ using Entidades;
 using Datos;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace Negocio
 {
@@ -19,6 +20,12 @@ namespace Negocio
         public NegocioCategoria()
         {
 
+        }
+
+        public void cargarGridCategorias(GridView grdEliminarCat, NegocioCategoria categorias)
+        {
+            grdEliminarCat.DataSource = categorias.ObtenerCat();
+            grdEliminarCat.DataBind();
         }
 
         public DataTable ObtenerCat()
@@ -54,7 +61,5 @@ namespace Negocio
             int FilasEliminadas = cat.EliminarCategoria(categoria);
             return FilasEliminadas;
         }
-
-
     }
 }
