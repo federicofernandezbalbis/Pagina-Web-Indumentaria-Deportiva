@@ -11,6 +11,7 @@ CREATE TABLE CATEGORIAS
 (
 IDCategoria_CAT int NOT NULL,
 NombreDeporte_CAT varchar(50) NOT NULL,
+Estado_CAT bit NOT NULL DEFAULT 1,
 CONSTRAINT PK_CATEGORIA PRIMARY KEY (IDCategoria_CAT)
 )
 
@@ -25,6 +26,7 @@ CREATE TABLE TIPODEPRENDA
 (
 IDTipo_TDP int NOT NULL,
 Descripcion_TDP varchar(50) NOT NULL,
+Estado_TDP bit NOT NULL DEFAULT 1,
 CONSTRAINT PK_TIPODEPRENDA PRIMARY KEY (IDTipo_TDP)
 )
 
@@ -76,8 +78,9 @@ Direccion_US varchar(70) NOT NULL,
 Localidad_US varchar(50) NOT NULL,
 Provincia_US varchar(50) NOT NULL,
 NombreUsuario_US varchar (30) NOT NULL,
-ContraseÒa_US varchar(20) NOT NULL,
+Contrase√±a_US varchar(20) NOT NULL,
 Administrador_US bit NOT NULL DEFAULT 0,
+Estado_US bit NOT NULL DEFAULT 1,
 CONSTRAINT PK_USUARIOS PRIMARY KEY (IDUsuario_US),
 CONSTRAINT UK_USUARIOS UNIQUE (DNI_US, Telefono_US, NombreUsuario_US)
 )
@@ -107,13 +110,13 @@ CONSTRAINT FK_DETALLEVENTAS_VENTAS FOREIGN KEY (IDVenta_DV) REFERENCES VENTAS (I
 CONSTRAINT FK_DETALLEVENTAS_ARTICULOS FOREIGN KEY (IDArt_DV, IDSexo_DV, Talle_DV) REFERENCES ARTICULOS (IDArt_AR, IDSexo_AR, Talle_AR)
 )
 
-INSERT INTO CATEGORIAS (IDCategoria_CAT, NombreDeporte_CAT)
-SELECT 1, 'Futbol' UNION 
-SELECT 2, 'Tenis' UNION 
-SELECT 3, 'Basquet' UNION 
-SELECT 4, 'Rugby' UNION 
-SELECT 5, 'Running' UNION 
-SELECT 6, 'Otro' 
+INSERT INTO CATEGORIAS (IDCategoria_CAT, NombreDeporte_CAT, Estado_CAT)
+SELECT 1, 'Futbol', 1 UNION 
+SELECT 2, 'Tenis', 1 UNION 
+SELECT 3, 'Basquet', 1 UNION 
+SELECT 4, 'Rugby', 1 UNION 
+SELECT 5, 'Running', 1 UNION 
+SELECT 6, 'Otro', 1
 GO
 
 INSERT INTO SEXO(IDSexo_SE, Descripcion_SE)
@@ -122,21 +125,21 @@ SELECT 'M','Mujer' UNION
 SELECT 'U', 'Unisex'
 GO
 
-INSERT INTO TIPODEPRENDA(IDTipo_TDP, Descripcion_TDP)
-SELECT 1, 'Camiseta' UNION
-SELECT 2, 'Pantalon' UNION
-SELECT 3, 'Short' UNION
-SELECT 4, 'Buzo' UNION
-SELECT 5, 'Calzado' UNION
-SELECT 6, 'Accesorios'
+INSERT INTO TIPODEPRENDA(IDTipo_TDP, Descripcion_TDP, Estado_TDP)
+SELECT 1, 'Camiseta', 1 UNION
+SELECT 2, 'Pantalon', 1 UNION
+SELECT 3, 'Short', 1 UNION
+SELECT 4, 'Buzo', 1 UNION
+SELECT 5, 'Calzado', 1 UNION
+SELECT 6, 'Accesorios', 1
 GO
 
 INSERT INTO PROVEEDORES(IDProveedor_PR, RazonSocial_PR, Direccion_PR, Ciudad_PR, Provincia_PR, Telefono_PR, Contacto_PR, Mail_PR)
-SELECT 'Adidas', 'Adidas SA', 'Von Wernicke 3023', 'MartÌnez', 'Buenos Aires', '0800-666-0206', '(11) 6842-0923', 'Adidas@gmail.com' UNION
+SELECT 'Adidas', 'Adidas SA', 'Von Wernicke 3023', 'Mart√≠nez', 'Buenos Aires', '0800-666-0206', '(11) 6842-0923', 'Adidas@gmail.com' UNION
 SELECT 'Nike', 'Nike SRL', 'Av del Libertador 2442', 'Lomas de Zamora', 'Buenos Aires', '541148516664', 'www.nike.com', 'Nike@gmail.com' UNION
 SELECT 'Puma', 'Puma Store', 'Ramal Pilar Km 36.5,', 'Tortuguitas', 'Buenos Aires', '03327424249', 'www.instagram.com/Pumaargentina', 'Puma@gmail.com' UNION
-SELECT 'Kappa','Kappa SRL', 'Av. Pres. HipÛlito Yrigoyen 1851', 'Jose C. Paz','Buenos Aires', '01123574878', 'www.kappastore.com.ar', 'Kappa@gmail.com' UNION
-SELECT 'Fila','Fila SRL', 'Paran· 3745', 'MartÌnez','Buenos Aires', '01147185831', 'www.fila.com.ar', 'Fila@gmail.com'
+SELECT 'Kappa','Kappa SRL', 'Av. Pres. Hip√≥lito Yrigoyen 1851', 'Jose C. Paz','Buenos Aires', '01123574878', 'www.kappastore.com.ar', 'Kappa@gmail.com' UNION
+SELECT 'Fila','Fila SRL', 'Paran√° 3745', 'Mart√≠nez','Buenos Aires', '01147185831', 'www.fila.com.ar', 'Fila@gmail.com'
 GO
 
 INSERT INTO ARTICULOS
@@ -480,13 +483,13 @@ SELECT 'ART0000046', 'U', 'L', '6', '6', 'Adidas', 'Mochila Essentials', 'Tempor
 --
 SELECT 'ART0000047', 'U', 'L', '6', '6', 'Nike', 'Mochila Nike Academy Team', 'Temporada 2023', 21500, 50, 1, '~/Imagenes/ACCESORIOS/MochilaNikeAcademyTeam.jpeg' UNION
 --
-SELECT 'ART0000048', 'U', 'L', '6', '6', 'Nike', 'RiÒonera Nike SB Heritage', 'Temporada 2023', 14000, 50, 1, '~/Imagenes/ACCESORIOS/RiÒoneraNikeSBHeritage.jpeg' 
+SELECT 'ART0000048', 'U', 'L', '6', '6', 'Nike', 'Ri√±onera Nike SB Heritage', 'Temporada 2023', 14000, 50, 1, '~/Imagenes/ACCESORIOS/Ri√±oneraNikeSBHeritage.jpeg' 
 GO
 
-INSERT INTO USUARIOS (Nombre_US, Apellido_US, FechaNacimiento_US, DNI_US, Telefono_US, Mail_US, Direccion_US, Localidad_US, Provincia_US, NombreUsuario_US, ContraseÒa_US)
-SELECT 'Alberto', 'Morales', '2000-10-03', '34652764', '64732564', 'Albertomorales@gmail.com', 'Laprida 1500', 'Berazategui', 'Buenos Aires', 'AlbertoMorales', 'ContraseÒa123' UNION
-SELECT 'Nahuel', 'Molina', '1980-11-12', '63789926', '26745163', 'Nahuelmolina@gmail.com', 'Castor 240', 'ItuzaingÛ', 'Buenos Aires', 'NahuelMolina', 'ContraseÒa1234' UNION
-SELECT 'Maia', 'GarcÌa', '1993-05-08', '44837926', '11627354', 'Maiagarcia@gmail.com', 'Libertador', 'Almafuerte', 'CÛrdoba', 'MaiaGarcia', 'ContraseÒa12345' 
+INSERT INTO USUARIOS (Nombre_US, Apellido_US, FechaNacimiento_US, DNI_US, Telefono_US, Mail_US, Direccion_US, Localidad_US, Provincia_US, NombreUsuario_US, Contrase√±a_US)
+SELECT 'Alberto', 'Morales', '2000-10-03', '34652764', '64732564', 'Albertomorales@gmail.com', 'Laprida 1500', 'Berazategui', 'Buenos Aires', 'AlbertoMorales', 'Contrase√±a123' UNION
+SELECT 'Nahuel', 'Molina', '1980-11-12', '63789926', '26745163', 'Nahuelmolina@gmail.com', 'Castor 240', 'Ituzaing√≥', 'Buenos Aires', 'NahuelMolina', 'Contrase√±a1234' UNION
+SELECT 'Maia', 'Garc√≠a', '1993-05-08', '44837926', '11627354', 'Maiagarcia@gmail.com', 'Libertador', 'Almafuerte', 'C√≥rdoba', 'MaiaGarcia', 'Contrase√±a12345' 
 GO
 
 INSERT INTO VENTAS (IDUsuario_VE, DNI_VE, Telefono_VE, Total_VE, Fecha_VE)
@@ -525,7 +528,8 @@ GO
             @IDCategoria int
         )
         AS
-        DELETE FROM CATEGORIAS WHERE IDCategoria_CAT = @IDCategoria
+		UPDATE CATEGORIAS
+		SET Estado_CAT = 0 WHERE IDCategoria_CAT = @IDCategoria
         RETURN 
 		GO
 
@@ -544,7 +548,8 @@ GO
             @IDTIPODEPRENDA int
         )
         AS
-        DELETE FROM TIPODEPRENDA WHERE IDTipo_TDP = @IDTIPODEPRENDA
+		UPDATE TIPODEPRENDA
+		SET Estado_TDP = 0 WHERE IDTipo_TDP = @IDTIPODEPRENDA
         RETURN 
 		GO
 
@@ -564,7 +569,8 @@ GO
             @IDARTICULO char(10), @IDSEXO char(1), @TALLE char(4)
         )
         AS
-        DELETE FROM ARTICULOS WHERE IDArt_AR = @IDARTICULO AND IdSexo_AR = @IDSEXO AND Talle_AR = @TALLE
+		UPDATE ARTICULOS
+        SET Estado_AR = 0 WHERE IDArt_AR = @IDARTICULO AND IdSexo_AR = @IDSEXO AND Talle_AR = @TALLE
         RETURN 
 		GO
 
@@ -623,17 +629,18 @@ GO
             @IDUSUARIO char(10)
         )
         AS
-        DELETE FROM USUARIOS WHERE IDUsuario_US = @IDUSUARIO
+		UPDATE USUARIOS
+		SET Estado_US = 0 WHERE IDUsuario_US = @IDUSUARIO
         RETURN 
 		GO
 
         CREATE PROCEDURE [dbo].[spAgregarUsuario]
         (
-           @NOMBRE varchar(50), @APELLIDO varchar(50), @FECHA datetime, @DNI varchar(10), @TELEFONO varchar(20), @MAIL varchar(100), @DIRECCION varchar(70), @LOCALIDAD varchar(50), @PROVINCIA varchar(50), @NOMBREUSUARIO varchar(30), @CONTRASE—A varchar(20)
+           @NOMBRE varchar(50), @APELLIDO varchar(50), @FECHA datetime, @DNI varchar(10), @TELEFONO varchar(20), @MAIL varchar(100), @DIRECCION varchar(70), @LOCALIDAD varchar(50), @PROVINCIA varchar(50), @NOMBREUSUARIO varchar(30), @CONTRASE√ëA varchar(20)
         )
         AS
-        INSERT INTO USUARIOS (Nombre_US, Apellido_US, FechaNacimiento_US, DNI_US, Telefono_US, Mail_US, Direccion_US, Localidad_US, Provincia_US, NombreUsuario_US, ContraseÒa_US)
-        SELECT @NOMBRE, @APELLIDO, @FECHA, @DNI, @TELEFONO, @MAIL, @DIRECCION, @LOCALIDAD, @PROVINCIA, @NOMBREUSUARIO, @CONTRASE—A
+        INSERT INTO USUARIOS (Nombre_US, Apellido_US, FechaNacimiento_US, DNI_US, Telefono_US, Mail_US, Direccion_US, Localidad_US, Provincia_US, NombreUsuario_US, Contrase√±a_US)
+        SELECT @NOMBRE, @APELLIDO, @FECHA, @DNI, @TELEFONO, @MAIL, @DIRECCION, @LOCALIDAD, @PROVINCIA, @NOMBREUSUARIO, @CONTRASE√ëA
         RETURN 
 		GO
 
@@ -669,14 +676,14 @@ GO
 		GO
 
 		CREATE PROCEDURE SP_CheckUsuario
-			@Username VARCHAR(30), @Password VARCHAR(50)
+			@MAIL VARCHAR(100), @Password VARCHAR(20)
 		AS
 		BEGIN
-			DECLARE @ExisteUsuario BIT;
+			DECLARE @ExisteUsuario INT;
 			SELECT @ExisteUsuario = CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
 			FROM USUARIOS
-		WHERE NombreUsuario_US = @Username AND ContraseÒa_US = @Password;
-			SELECT CAST(@ExisteUsuario AS BIT) AS Result;
+			WHERE Mail_US = @MAIL AND Contrase√±a_US = @Password AND Estado_US = 1;
+			SELECT @ExisteUsuario AS Result;
 		END
 		GO
 
@@ -711,9 +718,121 @@ GO
 		AS
 		BEGIN
 			SET NOCOUNT ON;
-			DELETE FROM ARTICULOS
-			WHERE IDTipo_AR IN (SELECT IDTipo_TDP FROM DELETED);
+			UPDATE ARTICULOS
+			SET Estado_AR = 0 WHERE IDTipo_AR IN (SELECT IDTipo_TDP FROM DELETED);
 			DELETE FROM TIPODEPRENDA
-			WHERE IDTipo_TDP IN (SELECT IDTipo_TDP FROM†DELETED);
+			WHERE IDTipo_TDP IN (SELECT IDTipo_TDP FROM¬†DELETED);
+		END
+		GO
+
+		CREATE TRIGGER TR_BorrarUsuario
+		ON USUARIOS
+		INSTEAD OF DELETE
+		AS
+		BEGIN
+			SET NOCOUNT ON;
+			DELETE FROM VENTAS
+			WHERE IDUsuario_VE IN (SELECT IDUsuario_US FROM DELETED);
+			DELETE FROM USUARIOS
+			WHERE IDUsuario_US IN (SELECT IDUsuario_US FROM¬†DELETED);
+		END
+		GO
+
+		CREATE TRIGGER TR_BorrarDV
+		ON VENTAS
+		INSTEAD OF DELETE
+		AS
+		BEGIN
+			SET NOCOUNT ON;
+			DELETE FROM DETALLEVENTAS
+			WHERE IDVenta_DV IN (SELECT IDVenta_VE FROM DELETED);
+			DELETE FROM VENTAS
+			WHERE IDVenta_VE IN (SELECT IDVenta_VE FROM¬†DELETED);
+		END
+		GO
+
+		--Trigger para poner en falso los estados de los art√≠culos tras eliminar (dar baja l√≥gica) una CATEGOR√çA
+		CREATE TRIGGER TR_BajaLogicaArticulosPostEliminarCategoria
+		ON CATEGORIAS
+		AFTER UPDATE
+		AS
+		BEGIN
+		SET NOCOUNT ON;
+			IF UPDATE (Estado_CAT) 
+			BEGIN
+				DECLARE @IDCATEGORIA INT
+				SELECT @IDCATEGORIA = IDCategoria_CAT
+				FROM INSERTED
+				UPDATE ARTICULOS
+				SET Estado_AR = 0 WHERE IDCategoria_AR = @IDCATEGORIA
+			END
+		END
+		GO
+
+		--Trigger para poner en falso los estados de los art√≠culos tras eliminar (dar baja l√≥gica) un TIPO DE PRENDA
+		CREATE TRIGGER TR_BajaLogicaArticulosPostEliminarTDP
+		ON TIPODEPRENDA
+		AFTER UPDATE
+		AS
+		BEGIN
+		SET NOCOUNT ON;
+			IF UPDATE (Estado_TDP) 
+			BEGIN
+				DECLARE @IDTDP INT
+				SELECT @IDTDP = IDTipo_TDP
+				FROM INSERTED
+				UPDATE ARTICULOS
+				SET Estado_AR = 0 WHERE IDTipo_AR = @IDTDP
+			END
+		END
+		GO
+		--Trigger para reducir el stock de un producto en la tabla articulos luego de crear un detalleventas.
+CREATE TRIGGER TR_ActualizarStock
+ON DETALLEVENTAS
+AFTER INSERT
+AS
+BEGIN
+SET NOCOUNT ON
+DECLARE @CODART CHAR(10), @CANTIDAD INT , @SEXO CHAR(1), @TALLE CHAR (4)
+SELECT @CODART = IDArt_DV, @CANTIDAD = Cantidad_DV, @SEXO = IDSexo_DV, @TALLE = Talle_DV
+FROM INSERTED
+UPDATE Articulos SET Stock_AR = Stock_AR-@CANTIDAD
+WHERE IDArt_AR = @CODART 
+AND
+Talle_AR = @TALLE
+AND
+IDSexo_AR = @SEXO
+END
+GO
+
+--Trigger para poner en false los art√≠culos que se queden sin stock
+
+		CREATE TRIGGER TR_EstadoFalseCuandoStockCero
+		ON ARTICULOS
+		AFTER UPDATE
+		AS
+		BEGIN
+		SET NOCOUNT ON;
+			IF UPDATE (Stock_AR)
+				BEGIN
+					UPDATE ARTICULOS
+					SET Estado_AR = 0 WHERE Stock_AR = 0
+				END
+		END
+		GO
+
+
+--Trigger para borrar proveedores
+
+		CREATE TRIGGER TR_BorrarProveedor
+		ON PROVEEDORES
+		INSTEAD OF DELETE
+		AS
+		BEGIN
+			SET NOCOUNT ON;
+			DELETE FROM ARTICULOS
+			WHERE IDProveedor_AR IN (SELECT IDProveedor_PR FROM DELETED);
+			DELETE FROM PROVEEDORES
+			WHERE IDProveedor_PR IN (SELECT IDProveedor_PR FROM¬†DELETED);
 		END
 		GO
